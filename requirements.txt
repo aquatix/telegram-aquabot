@@ -10,7 +10,8 @@ certifi==2017.11.5        # via python-telegram-bot, requests
 chardet==3.0.4            # via requests
 future==0.16.0            # via python-telegram-bot
 idna==2.6                 # via requests
+pymemcache==1.4.3
 python-telegram-bot==8.1.1
-python3-memcached==1.51
 requests==2.18.4
+six==1.11.0               # via pymemcache
 urllib3==1.22             # via requests
