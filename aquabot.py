@@ -45,7 +45,7 @@ def start(bot, update):
 
 def help(bot, update):
     """Send a message when the command /help is issued."""
-    update.message.reply_text('Help!')
+    update.message.reply_text('You can type \'school\' to get updates, or set a timer with /set <seconds>')
 
 
 def alarm(bot, job):
@@ -125,6 +125,14 @@ def send_response(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text=theresult)
 
 
+def check_socialschoolcms(bot, job):
+    theresult = socialschoolcms.get_contents(settings)
+    for user_id in settings.SEND_TO:
+        for message in theresult:
+            #bot.send_message(chat_id=update.message.chat_id, text=message)
+            bot.send_message(chat_id=user_id, text=message)
+
+
 def error(bot, update, error):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, error)
@@ -152,6 +160,12 @@ def main():
 
     # log all errors
     dp.add_error_handler(error)
+
+    # Enqueue updates
+    if settings.SOCIALSCHOOLCMS_SCHOOL:
+        j = updater.job_queue
+        print('Will check for SocialSchoolCMS')
+        j.run_repeating(check_socialschoolcms, interval=3600, first=0)
 
     # Start the Bot
     updater.start_polling()
