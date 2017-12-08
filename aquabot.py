@@ -12,7 +12,7 @@ the Dispatcher and registered at their respective places.
 Then, the bot is started and runs until we press Ctrl-C on the command line.
 
 Usage:
-Give periodic updates from various sources. Set alarm message with timer.
+Give periodic updates from various sources. Set reminder message with timer.
 Press Ctrl-C on the command line or send a signal to the process to stop the
 bot.
 """
@@ -45,15 +45,15 @@ def start(bot, update):
 
 def help(bot, update):
     """Send a message when the command /help is issued."""
-    update.message.reply_text('You can type \'school\' to get updates, or set a timer with /set <seconds>')
+    update.message.reply_text('You can type \'/schoolagenda\' to get the upcoming events, or set a reminder for yourself with /reminder <seconds> <message>, or for all configured users by /remindall <seconds> <message>. Selected users will get automatic notifications about news.')
 
 
-def alarm(bot, job):
-    """Send the alarm message."""
-    bot.send_message(job.context, text='Beep!')
+def send_reminder(bot, job):
+    """Send the reminder message."""
+    bot.send_message(job.context['user_id'], text='Reminder: {}'.format(job.context['message']))
 
 
-def set_timer(bot, update, args, job_queue, chat_data):
+def set_reminder(bot, update, args, job_queue, chat_data, to_all=False):
     """Add a job to the queue."""
     chat_id = update.message.chat_id
     try:
@@ -63,14 +63,27 @@ def set_timer(bot, update, args, job_queue, chat_data):
             update.message.reply_text('Sorry we can not go back to future!')
             return
 
-        # Add job to queue
-        job = job_queue.run_once(alarm, due, context=chat_id)
-        chat_data['job'] = job
+        # Reconstruct the message from the splitted input
+        message = ' '.join(args[1:])
 
-        update.message.reply_text('Timer successfully set!')
+        if to_all:
+            for user_id in settings.SEND_TO:
+                # Add job to queue
+                job = job_queue.run_once(send_reminder, due, context={'user_id': user_id, 'message': message})
+                chat_data['remindall_job_{}'.format(user_id)] = job
+        else:
+            # Add job to queue
+            job = job_queue.run_once(send_reminder, due, context={'user_id': chat_id, 'message': message})
+            chat_data['reminder_job_{}'.format(chat_id)] = job
+
+        update.message.reply_text('Reminder successfully set!')
 
     except (IndexError, ValueError):
-        update.message.reply_text('Usage: /set <seconds>')
+        update.message.reply_text('Usage: /reminder <seconds> <message>')
+
+
+def set_remindall(bot, update, args, job_queue, chat_data):
+    set_reminder(bot, update, args, job_queue, chat_data, to_all=True)
 
 
 def unset(bot, update, chat_data):
@@ -119,7 +132,7 @@ def send_response(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text=theresult)
 
 
-def check_socialschoolcms(bot, job):
+def check_socialschoolcms_news(bot, job):
     theresult = socialschoolcms.get_newsitems(settings)
     for user_id in settings.SEND_TO:
         for message in theresult:
@@ -147,7 +160,11 @@ def main():
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help))
-    dp.add_handler(CommandHandler("set", set_timer,
+    dp.add_handler(CommandHandler("reminder", set_reminder,
+                                  pass_args=True,
+                                  pass_job_queue=True,
+                                  pass_chat_data=True))
+    dp.add_handler(CommandHandler("remindall", set_remindall,
                                   pass_args=True,
                                   pass_job_queue=True,
                                   pass_chat_data=True))
@@ -162,11 +179,16 @@ def main():
 
     # Enqueue updates
     if settings.SOCIALSCHOOLCMS_SCHOOL:
+        # Sanity check
+        if not settings.SEND_TO:
+            logger.error('Please set user IDs in settings.py SEND_TO to send updates to')
+            quit()
         dp.add_handler(CommandHandler("schoolagenda", check_socialschoolcms_agenda))
 
         j = updater.job_queue
-        print('Will check for SocialSchoolCMS')
-        j.run_repeating(check_socialschoolcms, interval=3600, first=0)
+        logger.info('Will check for SocialSchoolCMS')
+        # Schedule repeating task, running every hour (3600 seconds)
+        j.run_repeating(check_socialschoolcms_news, interval=3600, first=0)
 
     # Start the Bot
     updater.start_polling()
