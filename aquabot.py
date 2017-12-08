@@ -26,6 +26,7 @@ from telegram.ext import (CommandHandler, Filters, InlineQueryHandler,
                           MessageHandler, Updater)
 from telegram.utils.helpers import escape_markdown
 
+from plugins import socialschoolcms
 import settings
 
 # Enable logging
@@ -110,10 +111,17 @@ def inlinequery(bot, update):
     update.inline_query.answer(results)
 
 
-def message(bot, update):
+def send_response(bot, update):
     """Handle the inline query."""
     query = update.message.text
     theresult = "_{}_".format(escape_markdown(query))
+
+    if query == 'school':
+        theresult = socialschoolcms.get_contents(settings)
+        for message in theresult:
+            bot.send_message(chat_id=update.message.chat_id, text=message)
+        return
+
     bot.send_message(chat_id=update.message.chat_id, text=theresult)
 
 
@@ -140,7 +148,7 @@ def main():
 
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(InlineQueryHandler(inlinequery))
-    dp.add_handler(MessageHandler(Filters.text, message))
+    dp.add_handler(MessageHandler(Filters.text, send_response))
 
     # log all errors
     dp.add_error_handler(error)
