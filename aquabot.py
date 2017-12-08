@@ -123,14 +123,12 @@ def check_socialschoolcms(bot, job):
     theresult = socialschoolcms.get_newsitems(settings)
     for user_id in settings.SEND_TO:
         for message in theresult:
-            #bot.send_message(chat_id=update.message.chat_id, text=message)
             bot.send_message(chat_id=user_id, text=message)
 
 
 def check_socialschoolcms_agenda(bot, update):
     theresult = socialschoolcms.get_agenda(settings)
     for message in theresult:
-        #bot.send_message(chat_id=update.message.chat_id, text=message, parse_mode=ParseMode.MARKDOWN)
         bot.send_message(chat_id=update.message.chat_id, text=message, parse_mode=ParseMode.HTML)
 
 

@@ -23,13 +23,13 @@ def get_newsitems(settings):
             for paragraph in blok.find_all('p'):
                 blok_result = blok_result + str(paragraph).replace('<p>', '').replace('</p>', '\n').strip()
 
-            blok_hash = hashlib.md5(blok_result.encode('utf-8')).hexdigest()
-            print(blok_hash)
-            if not mc.get(blok_hash):
+            blok_id = 'aquabot_{}'.format(hashlib.md5(blok_result.encode('utf-8')).hexdigest())
+            print(blok_id)
+            if not mc.get(blok_id):
                 # Only send the message when it was not seen before
                 messages.append(blok_result)
             # Cache message
-            mc.set(blok_hash, blok_result, MESSAGE_TTL)
+            mc.set(blok_id, blok_result, MESSAGE_TTL)
 
         return messages
 
