@@ -24,7 +24,7 @@ from telegram.utils.helpers import escape_markdown
 
 from telegram import InlineQueryResultArticle, ParseMode, \
     InputTextMessageContent
-from telegram.ext import Updater, InlineQueryHandler, CommandHandler
+from telegram.ext import Updater, InlineQueryHandler, CommandHandler, MessageHandler, Filters
 import logging
 
 import settings
@@ -89,7 +89,6 @@ def unset(bot, update, chat_data):
 
 def inlinequery(bot, update):
     """Handle the inline query."""
-    print('blah')
     query = update.inline_query.query
     results = [
         InlineQueryResultArticle(
@@ -111,6 +110,13 @@ def inlinequery(bot, update):
                 parse_mode=ParseMode.MARKDOWN))]
 
     update.inline_query.answer(results)
+
+
+def message(bot, update):
+    """Handle the inline query."""
+    query = update.message.text
+    theresult = "_{}_".format(escape_markdown(query))
+    bot.send_message(chat_id=update.message.chat_id, text=theresult)
 
 
 def error(bot, update, error):
@@ -136,6 +142,7 @@ def main():
 
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(InlineQueryHandler(inlinequery))
+    dp.add_handler(MessageHandler(Filters.text, message))
 
     # log all errors
     dp.add_error_handler(error)
