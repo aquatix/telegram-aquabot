@@ -70,10 +70,12 @@ def set_reminder(bot, update, args, job_queue, chat_data, to_all=False):
             for user_id in settings.SEND_TO:
                 # Add job to queue
                 job = job_queue.run_once(send_reminder, due, context={'user_id': user_id, 'message': message})
+                logger.info('Setting reminder (remindall) for %s by %s', user_id, chat_id)
                 chat_data['remindall_job_{}'.format(user_id)] = job
         else:
             # Add job to queue
             job = job_queue.run_once(send_reminder, due, context={'user_id': chat_id, 'message': message})
+            logger.info('Setting reminder for %s by %s', chat_id, chat_id)
             chat_data['reminder_job_{}'.format(chat_id)] = job
 
         update.message.reply_text('Reminder successfully set!')
