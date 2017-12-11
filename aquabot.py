@@ -26,7 +26,7 @@ from telegram.ext import (CommandHandler, Filters, InlineQueryHandler,
                           MessageHandler, Updater)
 from telegram.utils.helpers import escape_markdown
 
-from plugins import socialschoolcms
+from plugins import feed, socialschoolcms
 import settings
 
 # Enable logging
@@ -143,8 +143,16 @@ def check_socialschoolcms_news(bot, job):
 
 def check_socialschoolcms_agenda(bot, update):
     theresult = socialschoolcms.get_agenda(settings)
-    for message in theresult:
-        bot.send_message(chat_id=update.message.chat_id, text=message, parse_mode=ParseMode.HTML)
+    for user_id in settings.SEND_TO:
+        for message in theresult:
+            bot.send_message(chat_id=user_id, text=message, parse_mode=ParseMode.HTML)
+
+
+def check_news_feeds(bot, update):
+    theresult = feed.get_feedupdates(settings)
+    for user_id in settings.SEND_TO:
+        for message in theresult:
+            bot.send_message(chat_id=user_id, text=message, parse_mode=ParseMode.HTML)
 
 
 def error(bot, update, error):
@@ -191,6 +199,12 @@ def main():
         logger.info('Will check for SocialSchoolCMS')
         # Schedule repeating task, running every hour (3600 seconds)
         j.run_repeating(check_socialschoolcms_news, interval=3600, first=0)
+
+    if settings.FEEDS:
+        j = updater.job_queue
+        logger.info('Will check for news feeds')
+        # Schedule repeating task, running slightly more often than every hour
+        j.run_repeating(check_news_feeds, interval=3540, first=0)
 
     # Start the Bot
     updater.start_polling()
