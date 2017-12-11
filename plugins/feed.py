@@ -7,7 +7,7 @@ from pymemcache.client import Client as MemcacheClient
 MESSAGE_TTL = 3600 * 25  # Cache messages for 25 hours by default
 
 def format_newsitem(item):
-    clean_content = item['content'].replace('<p>', '').replace('</p>', '\n')
+    clean_content = item['content'].replace('<p>', '').replace('</p>', '\n').replace('&nbsp;', ' ')
     return '<b>{}</b>\n<i>{}</i>\n\n{}'.format(item['title'], item['updated'], clean_content)
 
 
@@ -37,5 +37,7 @@ def get_feedupdates(settings):
             print(update_id)
             if not mc.get(update_id):
                 result.append(newsitem)
+            # Cache message
+            mc.set(update_id, newsitem, MESSAGE_TTL)
 
     return result
