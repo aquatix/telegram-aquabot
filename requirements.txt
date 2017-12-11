@@ -8,10 +8,11 @@ beautifulsoup4==4.6.0     # via bs4
 bs4==0.0.1
 certifi==2017.11.5        # via python-telegram-bot, requests
 chardet==3.0.4            # via requests
+feedparser==5.2.1
 future==0.16.0            # via python-telegram-bot
 idna==2.6                 # via requests
 pymemcache==1.4.3
-python-telegram-bot==8.1.1
+python-telegram-bot==9.0.0
 requests==2.18.4
 six==1.11.0               # via pymemcache
 urllib3==1.22             # via requests

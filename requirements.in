@@ -1,4 +1,5 @@
 bs4
+feedparser
 pymemcache
 python-telegram-bot
 requests
