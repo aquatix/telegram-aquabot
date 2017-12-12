@@ -17,7 +17,6 @@ Press Ctrl-C on the command line or send a signal to the process to stop the
 bot.
 """
 import logging
-import re
 from uuid import uuid4
 
 from telegram import (InlineQueryResultArticle, InputTextMessageContent,
@@ -26,8 +25,8 @@ from telegram.ext import (CommandHandler, Filters, InlineQueryHandler,
                           MessageHandler, Updater)
 from telegram.utils.helpers import escape_markdown
 
-from plugins import feed, socialschoolcms
 import settings
+from plugins import feed, socialschoolcms
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
