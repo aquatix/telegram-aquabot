@@ -4,7 +4,7 @@
 #
 #    pip-compile --output-file requirements-dev.txt requirements-dev.in
 #
-astroid==1.5.3            # via pylint
+astroid==1.6.0            # via pylint
 beautifulsoup4==4.6.0     # via bs4
 blessings==1.6            # via curtsies
 bpython==0.16
