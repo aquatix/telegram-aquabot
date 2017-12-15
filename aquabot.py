@@ -137,6 +137,7 @@ def check_socialschoolcms_news(bot, job):
     theresult = socialschoolcms.get_newsitems(settings)
     for user_id in settings.SEND_TO:
         for message in theresult:
+            logger.info('News item to %d: %s', user_id, message)
             bot.send_message(chat_id=user_id, text=message)
 
 
@@ -144,6 +145,7 @@ def check_socialschoolcms_agenda(bot, update):
     theresult = socialschoolcms.get_agenda(settings)
     for user_id in settings.SEND_TO:
         for message in theresult:
+            logger.info('Agenda message to %d: %s', user_id, message)
             bot.send_message(chat_id=user_id, text=message, parse_mode=ParseMode.HTML)
 
 
@@ -151,6 +153,7 @@ def check_news_feeds(bot, update):
     theresult = feed.get_feedupdates(settings)
     for user_id in settings.SEND_TO:
         for message in theresult:
+            logger.info('Newsfeed message to %d: %s', user_id, message)
             bot.send_message(chat_id=user_id, text=message, parse_mode=ParseMode.HTML)
 
 
