@@ -28,8 +28,9 @@ def get_newsitems(settings):
             if not mc.get(blok_id):
                 # Only send the message when it was not seen before
                 messages.append(blok_result)
-            # Cache message
-            mc.set(blok_id, blok_result, MESSAGE_TTL)
+            if not settings.DEBUG:
+                # Cache message (only when not debugging)
+                mc.set(blok_id, blok_result, MESSAGE_TTL)
 
         return messages
 

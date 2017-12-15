@@ -153,8 +153,12 @@ def check_news_feeds(bot, update):
     theresult = feed.get_feedupdates(settings)
     for user_id in settings.SEND_TO:
         for message in theresult:
-            logger.info('Newsfeed message to %d: %s', user_id, message)
-            bot.send_message(chat_id=user_id, text=message, parse_mode=ParseMode.HTML)
+            logger.info('Newsfeed message to %d: %s', user_id, message['message'])
+            bot.send_message(chat_id=user_id, text=message['message'], parse_mode=ParseMode.HTML)
+            if message['images']:
+                for image in message['images']:
+                    logger.info('Newsfeed image to %d: %s', user_id, image)
+                    bot.send_photo(chat_id=user_id, photo=image)
 
 
 def error(bot, update, error):

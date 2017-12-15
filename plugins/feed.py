@@ -1,6 +1,7 @@
 import hashlib
 from time import mktime, strftime
 
+import bs4
 import feedparser
 from pymemcache.client import Client as MemcacheClient
 
@@ -8,7 +9,12 @@ MESSAGE_TTL = 3600 * 25  # Cache messages for 25 hours by default
 
 def format_newsitem(item):
     clean_content = item['content'].replace('<p>', '').replace('</p>', '\n').replace('&nbsp;', ' ')
-    return '<b>{}</b>\n<i>{}</i>\n\n{}'.format(item['title'], item['updated'], clean_content)
+    images = []
+    soup = bs4.BeautifulSoup(clean_content, 'html.parser')
+    for img in soup.find_all('img'):
+        images.append(img['src'])
+        img.extract()
+    return {'message': '<b>{}</b>\n<i>{}</i>\n\n{}'.format(item['title'], item['updated'], soup), 'images': images}
 
 
 def get_feedupdates(settings):
@@ -33,11 +39,12 @@ def get_feedupdates(settings):
 
         for item in latest:
             newsitem = format_newsitem(everything[item])
-            update_id = 'aquabot_{}_{}'.format(feed_key, hashlib.md5(newsitem.encode('utf-8')).hexdigest())
+            update_id = 'aquabot_{}_{}'.format(feed_key, hashlib.md5(newsitem['message'].encode('utf-8')).hexdigest())
             print(update_id)
             if not mc.get(update_id):
                 result.append(newsitem)
-            # Cache message
-            mc.set(update_id, newsitem, MESSAGE_TTL)
+            if not settings.DEBUG:
+                # Cache message (only when not debugging)
+                mc.set(update_id, newsitem, MESSAGE_TTL)
 
     return result
