@@ -19,7 +19,8 @@ FEEDS = [
 TRELLO_APIKEY = ''
 TRELLO_TOKEN = ''
 TRELLO_BOARD = 'Tasks'
-TRELLO_MESSAGE = 'Your tasks for today'
+TRELLO_HEADER = 'Your tasks for today'
+TRELLO_MESSAGE = 'No tasks for today, go wild!'
 TRELLO_INITIALS_TO_TELEGRAM = {
     'AB': 12345678,
     'BC': 42424242,

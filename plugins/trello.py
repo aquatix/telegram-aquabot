@@ -81,8 +81,11 @@ def memberslist_to_messages(memberslists):
 
 
 def cardlist_to_message(settings, this_list):
-    message = '\n'.join(['- {members}: {desc}'.format(members=','.join(item['members']), desc=item['name']) for item in this_list])
-    message = '*{}*\n{}'.format(settings.TRELLO_MESSAGE, message)
+    if this_list:
+        message = '\n'.join(['{members}: {desc}'.format(members=','.join(item['members']), desc=item['name']) for item in this_list])
+    else:
+        message = settings.TRELLO_MESSAGE
+    message = '*{}*\n{}'.format(settings.TRELLO_HEADER, message)
     return message
 
 
