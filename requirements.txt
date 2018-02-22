@@ -11,8 +11,13 @@ chardet==3.0.4            # via requests
 feedparser==5.2.1
 future==0.16.0            # via python-telegram-bot
 idna==2.6                 # via requests
+oauthlib==2.0.6           # via requests-oauthlib
+py-trello==0.10.0
 pymemcache==1.4.4
+python-dateutil==2.6.1    # via py-trello
 python-telegram-bot==9.0.0
+pytz==2018.3              # via py-trello
+requests-oauthlib==0.8.0  # via py-trello
 requests==2.18.4
-six==1.11.0               # via pymemcache
+six==1.11.0               # via pymemcache, python-dateutil
 urllib3==1.22             # via requests

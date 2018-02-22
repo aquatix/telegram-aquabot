@@ -15,3 +15,22 @@ FEEDS = [
     'https://example.com/feed.xml',  # Some news feed
     'https://example.com/subsite/feed.xml',  # Some other feed
 ]
+
+TRELLO_APIKEY = ''
+TRELLO_TOKEN = ''
+TRELLO_BOARD = 'Tasks'
+TRELLO_INITIALS_TO_TELEGRAM = {
+    'AB': 12345678,
+    'BC': 42424242,
+}
+
+# 0 = Monday
+WEEKDAY_NAMES = [
+    'Maandag',
+    'Dinsdag',
+    'Woensdag',
+    'Donderdag',
+    'Vrijdag',
+    'Zaterdag',
+    'Zondag',
+]

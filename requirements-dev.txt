@@ -19,12 +19,17 @@ idna==2.6                 # via requests
 isort==4.3.4              # via pylint
 lazy-object-proxy==1.3.1  # via astroid
 mccabe==0.6.1             # via pylint
+oauthlib==2.0.6           # via requests-oauthlib
+py-trello==0.10.0
 pygments==2.2.0           # via bpython
 pylint==1.8.2
 pymemcache==1.4.4
+python-dateutil==2.6.1    # via py-trello
 python-telegram-bot==9.0.0
+pytz==2018.3              # via py-trello
+requests-oauthlib==0.8.0  # via py-trello
 requests==2.18.4
-six==1.11.0               # via astroid, bpython, pylint, pymemcache
+six==1.11.0               # via astroid, bpython, pylint, pymemcache, python-dateutil
 typing==3.6.4             # via curtsies
 urllib3==1.22             # via requests
 wcwidth==0.1.7            # via curtsies

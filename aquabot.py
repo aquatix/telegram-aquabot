@@ -16,6 +16,7 @@ Give periodic updates from various sources. Set reminder message with timer.
 Press Ctrl-C on the command line or send a signal to the process to stop the
 bot.
 """
+import datetime
 import logging
 from uuid import uuid4
 
@@ -26,7 +27,7 @@ from telegram.ext import (CommandHandler, Filters, InlineQueryHandler,
 from telegram.utils.helpers import escape_markdown
 
 import settings
-from plugins import feed, socialschoolcms
+from plugins import feed, socialschoolcms, trello
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -161,6 +162,21 @@ def check_news_feeds(bot, update):
                     bot.send_photo(chat_id=user_id, photo=image)
 
 
+def check_trello(bot, update):
+    theresult = trello.get_todays_planning(settings)
+    return
+    for recipient in theresult:
+        if recipient != 'none':
+            # Only send to specific user
+            user_id = settings.TRELLO_INITIALS_TO_TELEGRAM[recipient]
+            for message in theresult[recipient]:
+                bot.send_message(chat_id=user_id, text=message, parse_mode=ParseMode.HTML)
+        else:
+            for message in theresult[recipient]:
+                for user_id in settings.SEND_TO:
+                    bot.send_message(chat_id=user_id, text=message, parse_mode=ParseMode.HTML)
+
+
 def error(bot, update, error):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, error)
@@ -211,6 +227,12 @@ def main():
         logger.info('Will check for news feeds')
         # Schedule repeating task, running slightly more often than every hour
         j.run_repeating(check_news_feeds, interval=3540, first=0)
+
+    if settings.TRELLO_APIKEY:
+        j = updater.job_queue
+        logger.info('Will check for Trello list items')
+        # Schedule repeating task, running every day at 7 o'clock in the morning
+        j.run_repeating(check_trello, interval=24*3600, first=datetime.time(7,0))
 
     # Start the Bot
     updater.start_polling()

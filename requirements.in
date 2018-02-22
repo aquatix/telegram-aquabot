@@ -1,5 +1,13 @@
-bs4
-feedparser
-pymemcache
+# Shared
 python-telegram-bot
 requests
+
+# Scraping and feeds
+bs4
+feedparser
+
+# Caching
+pymemcache
+
+# Trello
+py-trello
