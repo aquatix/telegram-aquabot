@@ -164,17 +164,8 @@ def check_news_feeds(bot, update):
 
 def check_trello(bot, update):
     theresult = trello.get_todays_planning(settings)
-    return
-    for recipient in theresult:
-        if recipient != 'none':
-            # Only send to specific user
-            user_id = settings.TRELLO_INITIALS_TO_TELEGRAM[recipient]
-            for message in theresult[recipient]:
-                bot.send_message(chat_id=user_id, text=message, parse_mode=ParseMode.HTML)
-        else:
-            for message in theresult[recipient]:
-                for user_id in settings.SEND_TO:
-                    bot.send_message(chat_id=user_id, text=message, parse_mode=ParseMode.HTML)
+    for user_id in settings.SEND_TO:
+        bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.MARKDOWN)
 
 
 def error(bot, update, error):
