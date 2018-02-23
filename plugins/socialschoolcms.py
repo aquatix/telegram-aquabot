@@ -43,10 +43,10 @@ def get_agenda(settings):
     """Get agenda items from SocialSchoolCMS for the school defined in settings.py"""
     url = 'http://socialschoolcms.nl/my/website/agenda.php?school=' + settings.SOCIALSCHOOLCMS_SCHOOL
 
+    messages = []
     response = requests.get(url)
     if response.status_code == 200:
         soup = bs4.BeautifulSoup(response.text, 'html.parser')
-        messages = []
         alldivs = soup.find_all("div")
         for div in alldivs:
             if len(div.contents) == 1:
@@ -64,17 +64,17 @@ def get_agenda(settings):
                         if month_content:
                             item_content = item_content + '\n' + month_content
                 messages[-1] = messages[-1] + item_content
-        return messages
+    return messages
 
 
 def get_week_agendas(settings):
     """Get agenda items from SocialSchoolCMS for the school defined in settings.py"""
     url = 'http://socialschoolcms.nl/app/5/calendar.php?school_id=' + settings.SOCIALSCHOOLCMS_SCHOOL
 
+    weeks = []
     response = requests.get(url)
     if response.status_code == 200:
         soup = bs4.BeautifulSoup(response.text, 'html.parser')
-        weeks = []
         alldivs = soup.find_all("div", class_="row")
         for div in alldivs:
             weekdivs = div.find_all("div", class_="col-md-4")
@@ -85,7 +85,7 @@ def get_week_agendas(settings):
                 # Add heading
                 content = '<b>Agenda {}:</b>\n{}'.format(week, content)
                 weeks.append((week, content))
-        return weeks
+    return weeks
 
 
 def get_thisweeks_agenda(settings):
@@ -95,3 +95,5 @@ def get_thisweeks_agenda(settings):
     for week in all_agendas:
         if week[0] == 'Week ' + this_week_number:
             return week
+    # Nothing for this week, tell so
+    return ('Week ' + this_week_number, '<b>Agenda Week {}:</b>\n{}'.format(this_week_number, settings.FALLBACK_MESSAGE))

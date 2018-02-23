@@ -1,5 +1,8 @@
 TOKEN='ASK_BOTFATHER_FOR_TOKEN'
 
+# Message telling there's nothing for this instance
+FALLBACK_MESSAGE = 'N/A'
+
 # http://socialschoolcms.nl/my/website/mededelingen.php?school=URL_TOKEN
 SOCIALSCHOOLCMS_SCHOOL='URL_TOKEN'
 
