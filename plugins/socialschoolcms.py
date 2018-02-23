@@ -63,4 +63,4 @@ def get_agenda(settings):
                         if month_content:
                             item_content = item_content + '\n' + month_content
                 messages[-1] = messages[-1] + item_content
-    return messages
+        return messages
