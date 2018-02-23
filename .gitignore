@@ -102,4 +102,8 @@ ENV/
 
 # vim and such
 *.swp
+*.swo
 tags
+
+# settings
+settings.py
