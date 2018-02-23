@@ -150,6 +150,13 @@ def check_socialschoolcms_agenda(bot, update):
             bot.send_message(chat_id=user_id, text=message, parse_mode=ParseMode.HTML)
 
 
+def check_socialschoolcms_weekagenda(bot, update):
+    theresult = socialschoolcms.get_thisweeks_agenda(settings)
+    for user_id in settings.SEND_TO:
+        logger.info('Week agenda message to %d: %s', user_id, theresult[1])
+        bot.send_message(chat_id=user_id, text=theresult[1], parse_mode=ParseMode.HTML)
+
+
 def check_news_feeds(bot, update):
     theresult = feed.get_feedupdates(settings)
     for user_id in settings.SEND_TO:
@@ -200,27 +207,34 @@ def main():
     # log all errors
     dp.add_error_handler(error)
 
+    j = updater.job_queue
+    # Find next date with day-of-week `day`:
+    onDay = lambda date, day: date + datetime.timedelta(days=(day-date.weekday()+7)%7)
     # Enqueue updates
     if settings.SOCIALSCHOOLCMS_SCHOOL:
         # Sanity check
         if not settings.SEND_TO:
             logger.error('Please set user IDs in settings.py SEND_TO to send updates to')
             quit()
-        dp.add_handler(CommandHandler("schoolagenda", check_socialschoolcms_agenda))
 
-        j = updater.job_queue
+        dp.add_handler(CommandHandler("schoolagenda", check_socialschoolcms_agenda))
         logger.info('Will check for SocialSchoolCMS')
         # Schedule repeating task, running every hour (3600 seconds)
         j.run_repeating(check_socialschoolcms_news, interval=3600, first=0)
 
+        dp.add_handler(CommandHandler("schoolweekagenda", check_socialschoolcms_weekagenda))
+        logger.info('Will check for SocialSchoolCMS week agenda')
+        # Schedule repeating task, running every hour (3600 seconds)
+        next_monday = onDay(datetime.datetime.today(), 0)  # Monday = 0
+        next_monday = next_monday.replace(hour=7, minute=0, second=0, microsecond=0)
+        j.run_repeating(check_socialschoolcms_weekagenda, interval=7*24*3600, first=next_monday)
+
     if settings.FEEDS:
-        j = updater.job_queue
         logger.info('Will check for news feeds')
         # Schedule repeating task, running slightly more often than every hour
         j.run_repeating(check_news_feeds, interval=3540, first=0)
 
     if settings.TRELLO_APIKEY:
-        j = updater.job_queue
         logger.info('Will check for Trello list items')
         # Schedule repeating task, running every day at 7 o'clock in the morning
         j.run_repeating(check_trello, interval=24*3600, first=datetime.time(7,0))

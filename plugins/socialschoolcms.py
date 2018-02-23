@@ -1,3 +1,4 @@
+import datetime
 import hashlib
 
 import bs4
@@ -64,3 +65,33 @@ def get_agenda(settings):
                             item_content = item_content + '\n' + month_content
                 messages[-1] = messages[-1] + item_content
         return messages
+
+
+def get_week_agendas(settings):
+    """Get agenda items from SocialSchoolCMS for the school defined in settings.py"""
+    url = 'http://socialschoolcms.nl/app/5/calendar.php?school_id=' + settings.SOCIALSCHOOLCMS_SCHOOL
+
+    response = requests.get(url)
+    if response.status_code == 200:
+        soup = bs4.BeautifulSoup(response.text, 'html.parser')
+        weeks = []
+        alldivs = soup.find_all("div", class_="row")
+        for div in alldivs:
+            weekdivs = div.find_all("div", class_="col-md-4")
+            for weekdiv in weekdivs:
+                week = weekdiv.contents[0].text
+                content = str(weekdiv.contents[1]).replace('<div class="content-block">', '').replace('<div class="sep"></div>', '').replace('</div>', '')
+                content = content.replace('<strong class="dag">', '<b>').replace('</strong>', '</b>').replace('<br/>', '\n')
+                # Add heading
+                content = '<b>{}</b>\n{}'.format(week, content)
+                weeks.append((week, content))
+        return weeks
+
+
+def get_thisweeks_agenda(settings):
+    all_agendas = get_week_agendas(settings)
+    this_week_number = datetime.datetime.now().strftime("%W")
+    #this_week_number = datetime.datetime.today().isocalendar()[1]
+    for week in all_agendas:
+        if week[0] == 'Week ' + this_week_number:
+            return week
