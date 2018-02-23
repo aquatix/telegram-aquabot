@@ -83,7 +83,7 @@ def get_week_agendas(settings):
                 content = str(weekdiv.contents[1]).replace('<div class="content-block">', '').replace('<div class="sep"></div>', '').replace('</div>', '')
                 content = content.replace('<strong class="dag">', '<b>').replace('</strong>', '</b>').replace('<br/>', '\n')
                 # Add heading
-                content = '<b>{}</b>\n{}'.format(week, content)
+                content = '<b>Agenda {}:</b>\n{}'.format(week, content)
                 weeks.append((week, content))
         return weeks
 
