@@ -1,9 +1,11 @@
 import bs4
 import datetime
+import logging
 import requests
 
 from trello import TrelloClient
 
+logger = logging.getLogger(__name__)
 
 def get_today(settings):
     """Get today's name"""
@@ -99,12 +101,9 @@ def get_todays_planning(settings):
     all_boards = client.list_boards()
 
     board_for_listing = get_board_with_name(all_boards, settings.TRELLO_BOARD)
-    #print(lists_to_lists(client, tasks_board))
     today_list = get_list(client, board_for_listing, get_today(settings))
-    print(today_list)
+    logger.debug(today_list)
     #memberslist = list_to_memberslist(settings, today_list)
-    #print(memberslist_to_messages(memberslist))
-    #return memberslist_to_messages(memberslist)
     message = cardlist_to_message(settings, today_list)
-    print(message)
+    logger.debug(message)
     return message
