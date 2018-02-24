@@ -49,6 +49,9 @@ def get_list(client, board, name):
                         # Cache this user
                         members[member] = client.get_member(member)
                     names.append(members[member].initials)
+                if not names:
+                    # Fall back to 'everyone'
+                    names = ['👪']
                 items.append({'name': card.name, 'members': names})
             return items
 
@@ -82,7 +85,7 @@ def memberslist_to_messages(memberslists):
 
 def cardlist_to_message(settings, this_list):
     if this_list:
-        message = '\n'.join(['{members}: {desc}'.format(members=','.join(item['members']), desc=item['name']) for item in this_list])
+        message = '\n'.join(['{members}: {desc}'.format(members=', '.join(item['members']), desc=item['name']) for item in this_list])
     else:
         message = settings.TRELLO_MESSAGE
     message = '*{}*\n{}'.format(settings.TRELLO_HEADER, message)
