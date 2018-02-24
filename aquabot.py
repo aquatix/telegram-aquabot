@@ -136,8 +136,9 @@ def send_response(bot, update):
 
 def check_socialschoolcms_news(bot, job):
     theresult = socialschoolcms.get_newsitems(settings)
-    if job.context['warmingup']:
+    if job.context and job.context['warmingup']:
         job.context = {'warmingup': False}
+        logger.info('Warming up SocialSchoolCMS news, skipping send')
         return
     for user_id in settings.SEND_TO:
         for message in theresult:
@@ -147,8 +148,9 @@ def check_socialschoolcms_news(bot, job):
 
 def check_socialschoolcms_agenda(bot, job):
     theresult = socialschoolcms.get_agenda(settings)
-    if job.context['warmingup']:
+    if job.context and job.context['warmingup']:
         job.context = {'warmingup': False}
+        logger.info('Warming up SocialSchoolCMS agenda, skipping send')
         return
     for user_id in settings.SEND_TO:
         for message in theresult:
@@ -158,8 +160,9 @@ def check_socialschoolcms_agenda(bot, job):
 
 def check_socialschoolcms_weekagenda(bot, job):
     theresult = socialschoolcms.get_thisweeks_agenda(settings)
-    if job.context['warmingup']:
+    if job.context and job.context['warmingup']:
         job.context = {'warmingup': False}
+        logger.info('Warming up SocialSchoolCMS week agenda, skipping send')
         return
     for user_id in settings.SEND_TO:
         logger.info('Week agenda message to %d: %s', user_id, theresult[1])
@@ -168,8 +171,9 @@ def check_socialschoolcms_weekagenda(bot, job):
 
 def check_news_feeds(bot, job):
     theresult = feed.get_feedupdates(settings)
-    if job.context['warmingup']:
+    if job.context and job.context['warmingup']:
         job.context = {'warmingup': False}
+        logger.info('Warming up news feed, skipping send')
         return
     for user_id in settings.SEND_TO:
         for message in theresult:
@@ -183,8 +187,9 @@ def check_news_feeds(bot, job):
 
 def check_trello(bot, job):
     theresult = trello.get_todays_planning(settings)
-    if job.context['warmingup']:
+    if job.context and job.context['warmingup']:
         job.context = {'warmingup': False}
+        logger.info('Warming up Trello, skipping send')
         return
     for user_id in settings.SEND_TO:
         bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.MARKDOWN)
@@ -242,7 +247,7 @@ def main():
         # Schedule repeating task, running every hour (3600 seconds)
         next_monday = onDay(datetime.datetime.today(), 0)  # Monday = 0
         next_monday = next_monday.replace(hour=7, minute=0, second=0, microsecond=0)
-        j.run_repeating(check_socialschoolcms_weekagenda, context={'warmingup': True}, interval=7*24*3600, first=next_monday)
+        j.run_repeating(check_socialschoolcms_weekagenda, interval=7*24*3600, first=next_monday)
 
     if settings.FEEDS:
         logger.info('Will check for news feeds')
@@ -252,7 +257,7 @@ def main():
     if settings.TRELLO_APIKEY:
         logger.info('Will check for Trello list items')
         # Schedule repeating task, running every day at 7 o'clock in the morning
-        j.run_repeating(check_trello, context={'warmingup': True}, interval=24*3600, first=datetime.time(7,0))
+        j.run_repeating(check_trello, interval=24*3600, first=datetime.time(7,0))
 
     # Start the Bot
     updater.start_polling()
