@@ -185,14 +185,23 @@ def check_news_feeds(bot, job):
                     bot.send_photo(chat_id=user_id, photo=image)
 
 
-def check_trello(bot, job):
-    theresult = trello.get_todays_planning(settings)
+def check_trello(bot, job, theresult):
     if job.context and job.context['warmingup']:
         job.context = {'warmingup': False}
         logger.info('Warming up Trello, skipping send')
         return
     for user_id in settings.SEND_TO:
         bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.MARKDOWN)
+
+
+def check_trello_today(bot, job):
+    theresult = trello.get_todays_planning(settings)
+    check_trello(bot, job, theresult)
+
+
+def check_trello_tomorrow(bot, job):
+    theresult = trello.get_tomorrows_planning(settings)
+    check_trello(bot, job, theresult)
 
 
 def error(bot, update, error):
@@ -257,7 +266,8 @@ def main():
     if settings.TRELLO_APIKEY:
         logger.info('Will check for Trello list items')
         # Schedule repeating task, running every day at 7 o'clock in the morning
-        j.run_repeating(check_trello, interval=24*3600, first=datetime.time(7,0))
+        j.run_repeating(check_trello_today, interval=24*3600, first=datetime.time(7,0))
+        j.run_repeating(check_trello_tomorrow, interval=24*3600, first=datetime.time(16,30))
 
     # Start the Bot
     updater.start_polling()

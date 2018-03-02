@@ -14,6 +14,14 @@ def get_today(settings):
     return settings.WEEKDAY_NAMES[weekday]
 
 
+def get_tomorrow(settings):
+    """Get tomorrow's name"""
+    tomorrow = datetime.datetime.today() + datetime.timedelta(day=1)
+    weekday = tomorrow.weekday()
+    # 0 = Monday
+    return settings.WEEKDAY_NAMES[weekday]
+
+
 def get_board_with_name(boards, name):
     for board in boards:
         if board.name == name:
@@ -94,16 +102,26 @@ def cardlist_to_message(settings, this_list):
     return message
 
 
-def get_todays_planning(settings):
-    """Get the planning items for today"""
+def get_planning_for(settings, for_day):
+    """Get the planning items for specified day"""
     client = TrelloClient(api_key=settings.TRELLO_APIKEY, token=settings.TRELLO_TOKEN)
 
     all_boards = client.list_boards()
 
     board_for_listing = get_board_with_name(all_boards, settings.TRELLO_BOARD)
-    today_list = get_list(client, board_for_listing, get_today(settings))
-    logger.debug(today_list)
-    #memberslist = list_to_memberslist(settings, today_list)
-    message = cardlist_to_message(settings, today_list)
+    the_day_list = get_list(client, board_for_listing, for_day)
+    logger.debug(the_day_list)
+    #memberslist = list_to_memberslist(settings, the_day_list)
+    message = cardlist_to_message(settings, the_day_list)
     logger.debug(message)
     return message
+
+
+def get_todays_planning(settings):
+    today = get_today(settings)
+    return get_planning_for(settings, today)
+
+
+def get_tomorrows_planning(settings):
+    tomorrow = get_tomorrow(settings)
+    return get_planning_for(settings, tomorrow)
