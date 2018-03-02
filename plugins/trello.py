@@ -16,7 +16,7 @@ def get_today(settings):
 
 def get_tomorrow(settings):
     """Get tomorrow's name"""
-    tomorrow = datetime.datetime.today() + datetime.timedelta(day=1)
+    tomorrow = datetime.datetime.today() + datetime.timedelta(days=1)
     weekday = tomorrow.weekday()
     # 0 = Monday
     return settings.WEEKDAY_NAMES[weekday]
@@ -93,16 +93,16 @@ def memberslist_to_messages(memberslists):
     return result
 
 
-def cardlist_to_message(settings, this_list):
+def cardlist_to_message(settings, this_list, header):
     if this_list:
         message = '\n'.join(['{members}: {desc}'.format(members=', '.join(item['members']), desc=item['name']) for item in this_list])
     else:
         message = settings.TRELLO_MESSAGE
-    message = '*{}*\n{}'.format(settings.TRELLO_HEADER, message)
+    message = '*{}*\n{}'.format(header, message)
     return message
 
 
-def get_planning_for(settings, for_day):
+def get_planning_for(settings, for_day, header):
     """Get the planning items for specified day"""
     client = TrelloClient(api_key=settings.TRELLO_APIKEY, token=settings.TRELLO_TOKEN)
 
@@ -112,16 +112,18 @@ def get_planning_for(settings, for_day):
     the_day_list = get_list(client, board_for_listing, for_day)
     logger.debug(the_day_list)
     #memberslist = list_to_memberslist(settings, the_day_list)
-    message = cardlist_to_message(settings, the_day_list)
+    message = cardlist_to_message(settings, the_day_list, header)
     logger.debug(message)
     return message
 
 
 def get_todays_planning(settings):
     today = get_today(settings)
-    return get_planning_for(settings, today)
+    header = settings.TRELLO_HEADER
+    return get_planning_for(settings, today, header)
 
 
 def get_tomorrows_planning(settings):
     tomorrow = get_tomorrow(settings)
-    return get_planning_for(settings, tomorrow)
+    header = settings.TRELLO_HEADER_TOMORROW.format(tomorrow)
+    return get_planning_for(settings, tomorrow, header)
