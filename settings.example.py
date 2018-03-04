@@ -23,6 +23,7 @@ TRELLO_APIKEY = ''
 TRELLO_TOKEN = ''
 TRELLO_BOARD = 'Tasks'
 TRELLO_HEADER = 'Your tasks for today'
+TRELLO_HEADER_TOMORROW = 'Forecast this 🌆 for {}:'
 TRELLO_MESSAGE = 'No tasks for today, go wild!'
 TRELLO_INITIALS_TO_TELEGRAM = {
     'AB': 12345678,
