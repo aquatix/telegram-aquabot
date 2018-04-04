@@ -15,7 +15,7 @@ oauthlib==2.0.6           # via requests-oauthlib
 py-trello==0.10.0
 pymemcache==1.4.4
 python-dateutil==2.6.1    # via py-trello
-python-telegram-bot==9.0.0
+python-telegram-bot==10.0.1
 pytz==2018.3              # via py-trello
 requests-oauthlib==0.8.0  # via py-trello
 requests==2.18.4
