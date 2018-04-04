@@ -6,6 +6,8 @@ import requests
 from pymemcache.client import Client as MemcacheClient
 
 MESSAGE_TTL = 3600 * 25  # Cache messages for 25 hours by default
+USERAGENT = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:55.0) Gecko/20100101 Firefox/60.0'
+REQUEST_HEADERS = {'User-Agent': USERAGENT}
 
 def get_newsitems(settings):
     """Get news items from SocialSchoolCMS for the school defined in settings.py"""
@@ -14,7 +16,7 @@ def get_newsitems(settings):
 
     url = 'http://socialschoolcms.nl/my/website/mededelingen.php?school=' + settings.SOCIALSCHOOLCMS_SCHOOL
 
-    response = requests.get(url)
+    response = requests.get(url, headers=REQUEST_HEADERS)
     if response.status_code == 200:
         soup = bs4.BeautifulSoup(response.text, 'html.parser')
         bloks = soup.find_all("div", class_="blok")
@@ -36,7 +38,7 @@ def get_newsitems(settings):
         return messages
 
     # No response 200 received
-    return ['Something went wrong while fetching info']
+    return ['Something went wrong while fetching info: {} - {}'.format(response.status_code, response.content)]
 
 
 def get_agenda(settings):
@@ -44,7 +46,7 @@ def get_agenda(settings):
     url = 'http://socialschoolcms.nl/my/website/agenda.php?school=' + settings.SOCIALSCHOOLCMS_SCHOOL
 
     messages = []
-    response = requests.get(url)
+    response = requests.get(url, headers=REQUEST_HEADERS)
     if response.status_code == 200:
         soup = bs4.BeautifulSoup(response.text, 'html.parser')
         alldivs = soup.find_all("div")
