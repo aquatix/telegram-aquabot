@@ -211,6 +211,7 @@ def check_pollen(bot, job):
         logger.info('Warming up pollen, skipping send')
         return
     for user_id in settings.SEND_TO:
+        logger.info('Pollenstats to %d: %s', user_id, theresult)
         bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.HTML)
 
 
@@ -282,7 +283,7 @@ def main():
     if settings.POLLEN_LOCATION:
         logger.info('Will check for pollen stats')
         # Schedule repeating task, running slightly more often than every hour
-        j.run_repeating(check_pollen, interval=24*3600, first=datetime.time(7,0))
+        j.run_repeating(check_pollen, interval=24*3600, first=datetime.time(8,0))
 
     # Start the Bot
     updater.start_polling()
