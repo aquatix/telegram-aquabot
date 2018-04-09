@@ -1,5 +1,6 @@
 import datetime
 import hashlib
+import unicodedata
 
 import bs4
 import requests
@@ -28,6 +29,8 @@ def get_newsitems(settings):
 
             blok_id = 'aquabot_{}'.format(hashlib.md5(blok_result.encode('utf-8')).hexdigest())
             print(blok_id)
+            # Normalise string characters (for example changing nbsp \xa0 into regular space)
+            blok_result = unicodedata.normalize("NFKD", blok_result)
             if not mc.get(blok_id):
                 # Only send the message when it was not seen before
                 messages.append(blok_result)
@@ -53,7 +56,7 @@ def get_agenda(settings):
         for div in alldivs:
             if len(div.contents) == 1:
                 # It's a header
-                messages.append(str(div.contents[0]).replace('<h3>', '<b>').replace('</h3>', '</b>'))
+                messages.append(unicodedata.normalize("NFKD", str(div.contents[0]).replace('<h3>', '<b>').replace('</h3>', '</b>')))
             else:
                 item_content = ''
                 for part in div.contents:
@@ -65,7 +68,7 @@ def get_agenda(settings):
 
                         if month_content:
                             item_content = item_content + '\n' + month_content
-                messages[-1] = messages[-1] + item_content
+                messages[-1] = messages[-1] + unicodedata.normalize("NFKD", item_content)
     return messages
 
 
@@ -86,7 +89,7 @@ def get_week_agendas(settings):
                 content = content.replace('<strong class="dag">', '<b>').replace('</strong>', '</b>').replace('<br/>', '\n')
                 # Add heading
                 content = '<b>Agenda {}:</b>\n{}'.format(week, content)
-                weeks.append((week, content))
+                weeks.append((week, unicodedata.normalize("NFKD", content)))
     return weeks
 
 
