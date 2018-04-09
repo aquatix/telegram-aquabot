@@ -27,7 +27,7 @@ from telegram.ext import (CommandHandler, Filters, InlineQueryHandler,
 from telegram.utils.helpers import escape_markdown
 
 import settings
-from plugins import feed, socialschoolcms, trello
+from plugins import feed, pollen, socialschoolcms, trello
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -204,6 +204,16 @@ def check_trello_tomorrow(bot, job):
     check_trello(bot, job, theresult)
 
 
+def check_pollen(bot, job):
+    theresult = pollent.get_pollen_stats(settings)
+    if job.context and job.context['warmingup']:
+        job.context = {'warmingup': False}
+        logger.info('Warming up pollen, skipping send')
+        return
+    for user_id in settings.SEND_TO:
+        bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.HTML)
+
+
 def error(bot, update, error):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, error)
@@ -268,6 +278,11 @@ def main():
         # Schedule repeating task, running every day at 7 o'clock in the morning
         j.run_repeating(check_trello_today, interval=24*3600, first=datetime.time(7,0))
         j.run_repeating(check_trello_tomorrow, interval=24*3600, first=datetime.time(16,30))
+
+    if settings.POLLEN_LOCATION:
+        logger.info('Will check for pollen stats')
+        # Schedule repeating task, running slightly more often than every hour
+        j.run_repeating(check_pollen, interval=24*3600, first=datetime.time(7,0))
 
     # Start the Bot
     updater.start_polling()

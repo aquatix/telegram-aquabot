@@ -1,3 +1,4 @@
+# Telegram API
 TOKEN='ASK_BOTFATHER_FOR_TOKEN'
 
 # Message telling there's nothing for this instance
@@ -40,3 +41,6 @@ WEEKDAY_NAMES = [
     'Zaterdag',
     'Zondag',
 ]
+
+# Get the location from the sidebar at http://www.pollennieuws.nl/
+POLLEN_LOCATION = ''
