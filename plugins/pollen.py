@@ -46,7 +46,7 @@ def get_pollen_graph_message(bars):
     """ Format the pollenstats message with sparkline graphs instead of text and numbers """
     message = '<b>Pollenstats:</b>'
     for location in bars:
-        message += '\n{}: {}'.format(location, bars[location][0])
+        message += '\n{}: 😀{}🤧'.format(location, bars[location][0])
     return message
 
 
