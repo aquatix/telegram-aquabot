@@ -1,11 +1,23 @@
 import bs4
 import requests
+from sparklines import sparklines
 
 USERAGENT = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:55.0) Gecko/20100101 Firefox/60.0'
 REQUEST_HEADERS = {'User-Agent': USERAGENT}
 
 POLLEN_LOCAL_URL = 'http://www.pollennieuws.nl/owp/pollennieuws/feeds/dailystats-feeder.php?m={}'
 POLLEN_COUNTRY_URL = 'http://www.pollennieuws.nl/owp/pollennieuws_2017/feeds/pollen-meldingen.php'
+
+
+def get_sparklines(bars):
+    line = []
+    for item in bars:
+        line.append(item[1])
+
+    sparks = []
+    for l in sparklines(line):
+        sparks.append(l)
+    return sparks
 
 
 def get_pollen_message(bars):
@@ -30,6 +42,14 @@ def get_pollen_message(bars):
     return message
 
 
+def get_pollen_graph_message(bars):
+    """ Format the pollenstats message with sparkline graphs instead of text and numbers """
+    message = '<b>Pollenstats:</b>'
+    for location in bars:
+        message += '\n{}: {}'.format(location, bars[location][0])
+    return message
+
+
 def get_pollen_stats_for(url):
     response = requests.get(url, headers=REQUEST_HEADERS)
     if response.status_code != 200:
@@ -45,9 +65,17 @@ def get_pollen_stats_for(url):
 
 def get_pollen_stats(settings):
     bars = {}
+    sparks = {}
     url = POLLEN_LOCAL_URL.format(settings.POLLEN_LOCATION)
     bars[settings.POLLEN_LOCATION] = get_pollen_stats_for(url)
+    sparks[settings.POLLEN_LOCATION] = get_sparklines(bars[settings.POLLEN_LOCATION])
     url = POLLEN_COUNTRY_URL
     bars['Nederland'] = get_pollen_stats_for(url)
-    message = get_pollen_message(bars)
+    sparks['Nederland'] = get_sparklines(bars['Nederland'])
+
+    # Get text-version of message
+    #message = get_pollen_message(bars)
+
+    # Get graph-version of message
+    message = get_pollen_graph_message(sparks)
     return message

@@ -11,3 +11,6 @@ pymemcache
 
 # Trello
 py-trello
+
+# Pollen graph
+sparklines
