@@ -205,7 +205,7 @@ def check_trello_tomorrow(bot, job):
 
 
 def check_pollen(bot, job):
-    theresult = pollent.get_pollen_stats(settings)
+    theresult = pollen.get_pollen_stats(settings)
     if job.context and job.context['warmingup']:
         job.context = {'warmingup': False}
         logger.info('Warming up pollen, skipping send')
