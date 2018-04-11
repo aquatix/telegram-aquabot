@@ -1,6 +1,10 @@
 import bs4
+import logging
 import requests
 from sparklines import sparklines
+
+# Enable logging
+logger = logging.getLogger(__name__)
 
 USERAGENT = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:55.0) Gecko/20100101 Firefox/60.0'
 REQUEST_HEADERS = {'User-Agent': USERAGENT}
@@ -51,6 +55,7 @@ def get_pollen_graph_message(bars):
 
 
 def get_pollen_stats_for(url):
+    logger.debug(url)
     response = requests.get(url, headers=REQUEST_HEADERS)
     if response.status_code != 200:
         return ['Something went wrong while fetching info: {} - {}'.format(response.status_code, response.content)]
@@ -59,7 +64,10 @@ def get_pollen_stats_for(url):
     bars = []
     for counter in range(1, 6):
         expectations = soup.find_all("div", class_="bar{} barLabel barLabelTop".format(counter))
-        bars.append((counter, int(expectations[0].text)))
+        try:
+            bars.append((counter, int(expectations[0].text)))
+        except IndexError:
+            bars.append((counter, 0))  # Fallback
     return bars
 
 
