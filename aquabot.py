@@ -280,10 +280,10 @@ def main():
         j.run_repeating(check_trello_today, interval=24*3600, first=datetime.time(7,0))
         j.run_repeating(check_trello_tomorrow, interval=24*3600, first=datetime.time(16,30))
 
-    if settings.POLLEN_LOCATION:
+    if settings.POLLEN_LOCATIONS:
         logger.info('Will check for pollen stats')
         # Schedule repeating task, running slightly more often than every hour
-        j.run_repeating(check_pollen, interval=24*3600, first=datetime.time(8,0))
+        j.run_repeating(check_pollen, interval=24*3600, first=datetime.time(7,45))
 
     # Start the Bot
     updater.start_polling()

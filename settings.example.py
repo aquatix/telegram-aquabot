@@ -43,4 +43,6 @@ WEEKDAY_NAMES = [
 ]
 
 # Get the location from the sidebar at http://www.pollennieuws.nl/
-POLLEN_LOCATION = ''
+POLLEN_LOCATIONS = [
+    '',  # E.g., 'Amsterdam' or 'Haarlem'
+]

@@ -14,6 +14,8 @@ POLLEN_COUNTRY_URL = 'http://www.pollennieuws.nl/owp/pollennieuws_2017/feeds/pol
 
 
 def get_sparklines(bars):
+    if not bars:
+        return None
     line = []
     for item in bars:
         line.append(item[1])
@@ -50,7 +52,8 @@ def get_pollen_graph_message(bars):
     """ Format the pollenstats message with sparkline graphs instead of text and numbers """
     message = '<b>Pollenstats:</b>'
     for location in bars:
-        message += '\n{}: 😀{}🤧'.format(location, bars[location][0])
+        if bars[location]:
+            message += '\n{}: 😀{}🤧'.format(location, bars[location][0])
     return message
 
 
@@ -67,16 +70,17 @@ def get_pollen_stats_for(url):
         try:
             bars.append((counter, int(expectations[0].text)))
         except IndexError:
-            bars.append((counter, 0))  # Fallback
+            return None
     return bars
 
 
 def get_pollen_stats(settings):
     bars = {}
     sparks = {}
-    url = POLLEN_LOCAL_URL.format(settings.POLLEN_LOCATION)
-    bars[settings.POLLEN_LOCATION] = get_pollen_stats_for(url)
-    sparks[settings.POLLEN_LOCATION] = get_sparklines(bars[settings.POLLEN_LOCATION])
+    for location in settings.POLLEN_LOCATIONS:
+        url = POLLEN_LOCAL_URL.format(location)
+        bars[location] = get_pollen_stats_for(url)
+        sparks[location] = get_sparklines(bars[location])
     url = POLLEN_COUNTRY_URL
     bars['Nederland'] = get_pollen_stats_for(url)
     sparks['Nederland'] = get_sparklines(bars['Nederland'])
