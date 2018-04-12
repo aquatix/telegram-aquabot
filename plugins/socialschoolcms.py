@@ -1,10 +1,14 @@
 import datetime
 import hashlib
+import logging
 import unicodedata
 
 import bs4
 import requests
 from pymemcache.client import Client as MemcacheClient
+
+# Enable logging
+logger = logging.getLogger(__name__)
 
 MESSAGE_TTL = 3600 * 25  # Cache messages for 25 hours by default
 USERAGENT = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:55.0) Gecko/20100101 Firefox/60.0'
@@ -28,11 +32,12 @@ def get_newsitems(settings):
                 blok_result = blok_result + str(paragraph).replace('<p>', '').replace('</p>', '\n').strip()
 
             blok_id = 'aquabot_{}'.format(hashlib.md5(blok_result.encode('utf-8')).hexdigest())
-            print(blok_id)
+            logger.debug(blok_id)
             # Normalise string characters (for example changing nbsp \xa0 into regular space)
             blok_result = unicodedata.normalize("NFKD", blok_result)
             if not mc.get(blok_id):
                 # Only send the message when it was not seen before
+                logger.debug('cache miss for %s', blok_id)
                 messages.append(blok_result)
             if not settings.DEBUG:
                 # Cache message (only when not debugging)
