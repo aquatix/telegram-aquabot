@@ -48,7 +48,7 @@ def get_forecasts(api_key, lat, lng):
 
 def get_moonphase_name(moonphase):
     """Gets moonphase 'name' for the fraction `moonphase`
-    
+
     0 is full moon
     0.25 is first quarter moon
     0.5 is full moon
@@ -70,9 +70,6 @@ def get_moonphase_name(moonphase):
     for phase in moonphases:
         if moonphases[phase][0] <= moonphase <= moonphases[phase][1]:
             return phase
-
-
-# def get_sun_up_down(
 
 
 def get_sun_and_moon(settings):
