@@ -217,7 +217,9 @@ def check_pollen(bot, job):
 
 def check_moon_and_sun(bot, job):
     theresult = darksky.get_sun_and_moon(settings)
-    bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.MARKDOWN)
+    for user_id in settings.SEND_TO:
+        logger.info('Sun and moon to %d: %s', user_id, theresult)
+        bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.MARKDOWN)
 
 
 def error(bot, update, error):
