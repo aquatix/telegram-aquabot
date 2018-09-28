@@ -21,15 +21,13 @@ EMOJI = {
 
 
 def format_sun_and_moon(sun_moon):
-    return {
-        'message': '{} {}  {}  {} {}'.format(
-            EMOJI['sunrise'],
-            sun_moon['sunrise'].strftime('%H:%M'),
-            EMOJI[sun_moon['moonphase-symbol']],
-            EMOJI['sunset'],
-            sun_moon['sunset'].strftime('%H:%M')
-        )
-    }
+    return '{} {}  {}  {} {}'.format(
+        EMOJI['sunrise'],
+        sun_moon['sunrise'].strftime('%H:%M'),
+        EMOJI[sun_moon['moonphase-symbol']],
+        EMOJI['sunset'],
+        sun_moon['sunset'].strftime('%H:%M')
+    )
 
 
 def get_forecasts(api_key, lat, lng):
