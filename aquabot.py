@@ -27,7 +27,7 @@ from telegram.ext import (CommandHandler, Filters, InlineQueryHandler,
 from telegram.utils.helpers import escape_markdown
 
 import settings
-from plugins import feed, pollen, socialschoolcms, trello
+from plugins import feed, darksky, pollen, socialschoolcms, trello
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -215,6 +215,11 @@ def check_pollen(bot, job):
         bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.HTML)
 
 
+def check_moon_and_sun(bot, job):
+    theresult = darksky.get_sun_and_moon(settings)
+    bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.MARKDOWN)
+
+
 def error(bot, update, error):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, error)
@@ -284,6 +289,13 @@ def main():
         logger.info('Will check for pollen stats')
         # Schedule repeating task, running slightly more often than every hour
         j.run_repeating(check_pollen, interval=24*3600, first=datetime.time(7,45))
+
+    try:
+        if settings.DARKSKY_APIKEY:
+            logger.info('Will check for moonphase, sun up and down at %s, %s', settings.DARKSKY_LAT, settings.DARKSKY_LON)
+            j.run_repeating(check_moon_and_sun, interval=24*3600, first=datetime.time(7,0))
+    except AttributeError:
+        logger.info('No DarkSky API key found, not checking moonphase and such')
 
     # Start the Bot
     updater.start_polling()
