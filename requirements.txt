@@ -4,21 +4,25 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
-beautifulsoup4==4.6.0     # via bs4
+asn1crypto==0.24.0        # via cryptography
+beautifulsoup4==4.6.3     # via bs4
 bs4==0.0.1
-certifi==2018.4.16        # via python-telegram-bot, requests
+certifi==2018.8.24        # via python-telegram-bot, requests
+cffi==1.11.5              # via cryptography
 chardet==3.0.4            # via requests
+cryptography==2.3.1       # via python-telegram-bot
 feedparser==5.2.1
 future==0.16.0            # via python-telegram-bot, sparklines
-idna==2.7                 # via requests
+idna==2.7                 # via cryptography, requests
 oauthlib==2.1.0           # via requests-oauthlib
-py-trello==0.11.3
-pymemcache==1.4.4
+py-trello==0.12.0
+pycparser==2.19           # via cffi
+pymemcache==2.0.0
 python-dateutil==2.7.3    # via py-trello
-python-telegram-bot==10.1.0
+python-telegram-bot==11.1.0
 pytz==2018.5              # via py-trello
 requests-oauthlib==1.0.0  # via py-trello
 requests==2.19.1
-six==1.11.0               # via pymemcache, python-dateutil
+six==1.11.0               # via cryptography, pymemcache, python-dateutil
 sparklines==0.4.2
 urllib3==1.23             # via requests
