@@ -21,12 +21,12 @@ EMOJI = {
 
 
 def format_sun_and_moon(sun_moon):
-    return '{} {}  {}  {} {}'.format(
+    return '{} {}  {} {}  {}'.format(
         EMOJI['sunrise'],
         sun_moon['sunrise'].strftime('%H:%M'),
-        EMOJI[sun_moon['moonphase-symbol']],
         EMOJI['sunset'],
-        sun_moon['sunset'].strftime('%H:%M')
+        sun_moon['sunset'].strftime('%H:%M'),
+        EMOJI[sun_moon['moonphase-symbol']],
     )
 
 
