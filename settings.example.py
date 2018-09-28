@@ -46,3 +46,7 @@ WEEKDAY_NAMES = [
 POLLEN_LOCATIONS = [
     '',  # E.g., 'Amsterdam' or 'Haarlem'
 ]
+
+# DARKSKY_APIKEY = ''
+# DARKSKY_LAT =
+# DARKSKY_LON =
