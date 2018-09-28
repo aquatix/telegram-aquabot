@@ -1,5 +1,4 @@
 import datetime
-import arrow
 import logging
 
 import forecastio
@@ -7,9 +6,30 @@ import pytz
 
 logger = logging.getLogger(__name__)
 
+EMOJI = {
+    'sunrise': '🌅',
+    'sunset': '🌇',
+    'new-moon': '🌑',
+    'waxing-crescent-moon': '🌒',
+    'first-quarter-moon': '🌓',
+    'waxing-gibbous-moon': '🌔',
+    'full-moon': '🌕',
+    'waning-gibbous-moon': '🌖',
+    'last-quarter-moon': '🌗',
+    'waning-crescent-moon': '🌘',
+}
+
 
 def format_sun_and_moon(sun_moon):
-    return {'message': '🌅 {} {} 🌇 {}'.format(sun_moon['sunrise'], sun_moon['moonphase-symbol'], sun_moon['sunset'])}
+    return {
+        'message': '{} {}  {}  {} {}'.format(
+            EMOJI['sunrise'],
+            sun_moon['sunrise'].strftime('%H:%M'),
+            EMOJI[sun_moon['moonphase-symbol']],
+            EMOJI['sunset'],
+            sun_moon['sunset'].strftime('%H:%M')
+        )
+    }
 
 
 def get_forecasts(api_key, lat, lng):
@@ -22,8 +42,8 @@ def get_forecasts(api_key, lat, lng):
         sundown = pytz.utc.localize(day.sunsetTime)
         print('Sun up: {}, sun down: {}, moon phase: {}'.format(sunrise, sundown, day.moonPhase))
     day = forecast.daily().data[0]
-    result['sunrise'] = pytz.utc.localize(day.sunriseTime)
-    result['sunset'] = pytz.utc.localize(day.sunsetTime)
+    result['sunrise'] = pytz.utc.localize(day.sunriseTime).replace(tzinfo=datetime.timezone.utc).astimezone(tz=None)
+    result['sunset'] = pytz.utc.localize(day.sunsetTime).replace(tzinfo=datetime.timezone.utc).astimezone(tz=None)
     result['moonphase'] = day.moonPhase
     return result
 
@@ -60,4 +80,5 @@ def get_moonphase_name(moonphase):
 def get_sun_and_moon(settings):
     forecast = get_forecasts(settings.DARKSKY_APIKEY, settings.DARKSKY_LAT, settings.DARKSKY_LON)
     forecast['moonphase-symbol'] = get_moonphase_name(forecast['moonphase'])
-    print(format_sun_and_moon(forecast))
+    # print(format_sun_and_moon(forecast))
+    return format_sun_and_moon(forecast)
