@@ -14,3 +14,7 @@ py-trello
 
 # Pollen graph
 sparklines
+
+# Moon phase, sun up/down, weather stuff
+python-forecastio
+pytz
