@@ -27,7 +27,7 @@ from telegram.ext import (CommandHandler, Filters, InlineQueryHandler,
 from telegram.utils.helpers import escape_markdown
 
 import settings
-from plugins import feed, darksky, pollen, socialschoolcms, trello
+from plugins import feed, darksky, heemskerkevenementenkalender, pollen, socialschoolcms, trello
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -222,6 +222,14 @@ def check_moon_and_sun(bot, job):
         bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.MARKDOWN)
 
 
+def check_heemskerkevents(bot, job):
+    theresult = heemskerkevenementenkalender.get_items_for_today_and_tomorrow()
+    if theresult:
+        for user_id in settings.SEND_TO:
+            logger.info('Heemskerk events to %d: %s', user_id, theresult)
+            bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.HTML)
+
+
 def error(bot, update, error):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, error)
@@ -291,6 +299,12 @@ def main():
         logger.info('Will check for pollen stats')
         # Schedule repeating task, running slightly more often than every hour
         j.run_repeating(check_pollen, interval=24*3600, first=datetime.time(7,45))
+
+    if settings.HEEMSKERK_EVENT_CALENDAR:
+        logger.info('Will check for events in Heemskerk')
+        # Schedule repeating task, running slightly more often than every hour
+        j.run_repeating(check_heemskerkevents, interval=24*3600, first=datetime.time(7,0))
+
 
     try:
         if settings.DARKSKY_APIKEY:

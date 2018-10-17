@@ -47,6 +47,8 @@ POLLEN_LOCATIONS = [
     '',  # E.g., 'Amsterdam' or 'Haarlem'
 ]
 
+HEEMSKERK_EVENT_CALENDAR = False
+
 # DARKSKY_APIKEY = ''
 # DARKSKY_LAT =
 # DARKSKY_LON =
