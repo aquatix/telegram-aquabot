@@ -59,6 +59,9 @@ def get_items_for_today_and_tomorrow():
     for item in tomorrows_items:
         message += format_calendar_item(item)
 
+    if message:
+        message = 'Evenementen:\n{}'.format(message)
+
     print(message)
     return message
 
