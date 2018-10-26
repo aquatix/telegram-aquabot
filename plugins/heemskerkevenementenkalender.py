@@ -7,7 +7,7 @@ import requests
 def format_calendar_item(item):
     if item[1]:
         # Item has a time window
-        return '{} {}: {} (locatie: {})\n'.format(item[0], item[1], item[2], item[3])
+        return '{}, {}: {} (locatie: {})\n'.format(item[0], item[1], item[2], item[3])
     return '{}: {} (locatie: {})\n'.format(item[0], item[2], item[3])
 
 
@@ -60,7 +60,7 @@ def get_items_for_today_and_tomorrow():
         message += format_calendar_item(item)
 
     if message:
-        message = '<b>Evenementen:></b>\n{}'.format(message)
+        message = '<b>Evenementen:</b>\n{}'.format(message)
 
     print(message)
     return message
