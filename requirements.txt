@@ -6,26 +6,25 @@
 #
 asn1crypto==0.24.0        # via cryptography
 beautifulsoup4==4.6.3     # via bs4
-biscuits==0.1.1           # via responses
 bs4==0.0.1
-certifi==2018.10.15       # via python-telegram-bot, requests
+certifi==2018.11.29       # via python-telegram-bot, requests
 cffi==1.11.5              # via cryptography
 chardet==3.0.4            # via requests
-cryptography==2.3.1       # via python-telegram-bot
+cryptography==2.4.2       # via python-telegram-bot
 feedparser==5.2.1
-future==0.16.0            # via python-telegram-bot, sparklines
-idna==2.7                 # via cryptography, requests
+future==0.17.1            # via python-telegram-bot, sparklines
+idna==2.8                 # via cryptography, requests
 oauthlib==2.1.0           # via requests-oauthlib
-py-trello==0.13.0
+py-trello==0.14.0
 pycparser==2.19           # via cffi
 pymemcache==2.0.0
-python-dateutil==2.7.3    # via py-trello
+python-dateutil==2.7.5    # via py-trello
 python-forecastio==1.4.0
 python-telegram-bot==11.1.0
-pytz==2018.5
+pytz==2018.7
 requests-oauthlib==1.0.0  # via py-trello
-requests==2.20.0
-responses==0.10.1         # via python-forecastio
-six==1.11.0               # via cryptography, pymemcache, python-dateutil, responses
+requests==2.21.0
+responses==0.10.4         # via python-forecastio
+six==1.12.0               # via cryptography, pymemcache, python-dateutil, responses
 sparklines==0.4.2
-urllib3==1.24             # via requests
+urllib3==1.24.1           # via requests

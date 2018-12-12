@@ -5,41 +5,40 @@
 #    pip-compile --output-file requirements-dev.txt requirements-dev.in
 #
 asn1crypto==0.24.0        # via cryptography
-astroid==2.0.4            # via pylint
+astroid==2.1.0            # via pylint
 beautifulsoup4==4.6.3     # via bs4
-biscuits==0.1.1           # via responses
 blessings==1.7            # via curtsies
 bpython==0.17.1
 bs4==0.0.1
-certifi==2018.10.15       # via python-telegram-bot, requests
+certifi==2018.11.29       # via python-telegram-bot, requests
 cffi==1.11.5              # via cryptography
 chardet==3.0.4            # via requests
-cryptography==2.3.1       # via python-telegram-bot
+cryptography==2.4.2       # via python-telegram-bot
 curtsies==0.3.0           # via bpython
 feedparser==5.2.1
-future==0.16.0            # via python-telegram-bot, sparklines
+future==0.17.1            # via python-telegram-bot, sparklines
 greenlet==0.4.15          # via bpython
-idna==2.7                 # via cryptography, requests
+idna==2.8                 # via cryptography, requests
 isort==4.3.4              # via pylint
 lazy-object-proxy==1.3.1  # via astroid
 mccabe==0.6.1             # via pylint
 oauthlib==2.1.0           # via requests-oauthlib
-py-trello==0.13.0
+py-trello==0.14.0
 pycparser==2.19           # via cffi
-pygments==2.2.0           # via bpython
-pylint==2.1.1
+pygments==2.3.0           # via bpython
+pylint==2.2.2
 pymemcache==2.0.0
-python-dateutil==2.7.3    # via py-trello
+python-dateutil==2.7.5    # via py-trello
 python-forecastio==1.4.0
 python-telegram-bot==11.1.0
-pytz==2018.5
+pytz==2018.7
 requests-oauthlib==1.0.0  # via py-trello
-requests==2.20.0
-responses==0.10.1         # via python-forecastio
-six==1.11.0               # via astroid, blessings, bpython, cryptography, pymemcache, python-dateutil, responses
+requests==2.21.0
+responses==0.10.4         # via python-forecastio
+six==1.12.0               # via astroid, blessings, bpython, cryptography, pymemcache, python-dateutil, responses
 sparklines==0.4.2
 typed-ast==1.1.0          # via astroid
 typing==3.6.6             # via curtsies
-urllib3==1.24             # via requests
+urllib3==1.24.1           # via requests
 wcwidth==0.1.7            # via curtsies
 wrapt==1.10.11            # via astroid

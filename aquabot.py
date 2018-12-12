@@ -305,7 +305,6 @@ def main():
         # Schedule repeating task, running slightly more often than every hour
         j.run_repeating(check_heemskerkevents, interval=24*3600, first=datetime.time(7,0))
 
-
     try:
         if settings.DARKSKY_APIKEY:
             logger.info('Will check for moonphase, sun up and down at %s, %s', settings.DARKSKY_LAT, settings.DARKSKY_LON)
