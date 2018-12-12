@@ -136,10 +136,13 @@ def send_response(bot, update):
 
 def check_socialschoolcms_news(bot, job):
     theresult = socialschoolcms.get_newsitems(settings)
-    if job.context and job.context['warmingup']:
+    try:
+        if job.context and job.context['warmingup']:
+            job.context = {'warmingup': False}
+            logger.info('Warming up SocialSchoolCMS news, skipping send')
+            return
+    except AttributeError:
         job.context = {'warmingup': False}
-        logger.info('Warming up SocialSchoolCMS news, skipping send')
-        return
     for user_id in settings.SEND_TO:
         for message in theresult:
             logger.info('News item to %d: %s', user_id, message)
@@ -148,10 +151,13 @@ def check_socialschoolcms_news(bot, job):
 
 def check_socialschoolcms_agenda(bot, job):
     theresult = socialschoolcms.get_agenda(settings)
-    if job.context and job.context['warmingup']:
+    try:
+        if job.context and job.context['warmingup']:
+            job.context = {'warmingup': False}
+            logger.info('Warming up SocialSchoolCMS agenda, skipping send')
+            return
+    except AttributeError:
         job.context = {'warmingup': False}
-        logger.info('Warming up SocialSchoolCMS agenda, skipping send')
-        return
     for user_id in settings.SEND_TO:
         for message in theresult:
             logger.info('Agenda message to %d: %s', user_id, message)
@@ -160,10 +166,13 @@ def check_socialschoolcms_agenda(bot, job):
 
 def check_socialschoolcms_weekagenda(bot, job):
     theresult = socialschoolcms.get_thisweeks_agenda(settings)
-    if job.context and job.context['warmingup']:
+    try:
+        if job.context and job.context['warmingup']:
+            job.context = {'warmingup': False}
+            logger.info('Warming up SocialSchoolCMS week agenda, skipping send')
+            return
+    except AttributeError:
         job.context = {'warmingup': False}
-        logger.info('Warming up SocialSchoolCMS week agenda, skipping send')
-        return
     for user_id in settings.SEND_TO:
         logger.info('Week agenda message to %d: %s', user_id, theresult[1])
         bot.send_message(chat_id=user_id, text=theresult[1], parse_mode=ParseMode.HTML)
@@ -171,10 +180,13 @@ def check_socialschoolcms_weekagenda(bot, job):
 
 def check_news_feeds(bot, job):
     theresult = feed.get_feedupdates(settings)
-    if job.context and job.context['warmingup']:
+    try:
+        if job.context and job.context['warmingup']:
+            job.context = {'warmingup': False}
+            logger.info('Warming up news feed, skipping send')
+            return
+    except AttributeError:
         job.context = {'warmingup': False}
-        logger.info('Warming up news feed, skipping send')
-        return
     for user_id in settings.SEND_TO:
         for message in theresult:
             logger.info('Newsfeed message to %d: %s', user_id, message['message'])
@@ -186,10 +198,13 @@ def check_news_feeds(bot, job):
 
 
 def check_trello(bot, job, theresult):
-    if job.context and job.context['warmingup']:
+    try:
+        if job.context and job.context['warmingup']:
+            job.context = {'warmingup': False}
+            logger.info('Warming up Trello, skipping send')
+            return
+    except AttributeError:
         job.context = {'warmingup': False}
-        logger.info('Warming up Trello, skipping send')
-        return
     for user_id in settings.SEND_TO:
         bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.MARKDOWN)
 
