@@ -27,7 +27,7 @@ from telegram.ext import (CommandHandler, Filters, InlineQueryHandler,
 from telegram.utils.helpers import escape_markdown
 
 import settings
-from plugins import feed, darksky, heemskerkevenementenkalender, pollen, socialschoolcms, trello
+from plugins import feed, darksky, heemskerkevenementenkalender, pollen, socialschoolcms, trello, bibliotheek
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -245,6 +245,14 @@ def check_heemskerkevents(bot, job):
             bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.HTML)
 
 
+def check_library_items(bot, job):
+    theresult = bibliotheek.get_all_books(settings, cutoff=7)
+    if theresult:
+        for user_id in settings.SEND_TO:
+            logger.info('Library items overview to %d: %s', user_id, theresult)
+            bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.HTML)
+
+
 def error(bot, update, error):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, error)
@@ -294,10 +302,17 @@ def main():
 
         dp.add_handler(CommandHandler("schoolweekagenda", check_socialschoolcms_weekagenda))
         logger.info('Will check for SocialSchoolCMS week agenda')
-        # Schedule repeating task, running every hour (3600 seconds)
+        # Schedule repeating task, running every week
         next_monday = onDay(datetime.datetime.today(), 0)  # Monday = 0
         next_monday = next_monday.replace(hour=7, minute=0, second=0, microsecond=0)
         j.run_repeating(check_socialschoolcms_weekagenda, interval=7*24*3600, first=next_monday)
+
+    if settings.BIBLIOTHEEK_MEMBERS:
+        logger.info('Will check for library items')
+        # Schedule repeating task, running every week
+        next_monday = onDay(datetime.datetime.today(), 0)  # Monday = 0
+        next_monday = next_monday.replace(hour=7, minute=0, second=0, microsecond=0)
+        j.run_repeating(check_library_items, interval=7*24*3600, first=next_monday)
 
     if settings.FEEDS:
         logger.info('Will check for news feeds')
