@@ -8,8 +8,11 @@ def format_books(books):
     """
     Create message
     """
+    message = ''
     for book in books:
         print(book['title'])
+        message += '{} {}\n'.format(book['title'], book['info'])
+    return ('<b>Boeken</b>', message)
 
 
 def get_books_for(username, password, vestnr, cutoff=None):
@@ -70,11 +73,13 @@ def get_books_for(username, password, vestnr, cutoff=None):
         delta = hand_in_date - date_now
         book['delta_days'] = delta.days
 
+        # More metadata on the books:
+        # https://bicatwww.obbh.nl/cgi-bin/bx.pl?event=w2a;action=haalTitels20Gegevens;items=380745,16730&sid=2858ac0a-772c-4cb3-b140-3f2361a4f36b&vestnr=6525
+
         if not cutoff or delta.days <= cutoff:
             books.append(book)
 
     return books
-    # https://bicatwww.obbh.nl/cgi-bin/bx.pl?event=w2a;action=haalTitels20Gegevens;items=380745,16730&sid=2858ac0a-772c-4cb3-b140-3f2361a4f36b&vestnr=6525
 
 
 def get_all_books(settings, cutoff=None):
@@ -82,4 +87,5 @@ def get_all_books(settings, cutoff=None):
     for member in settings.BIBLIOTHEEK_MEMBERS:
         books.append(get_books_for(member['username'], member['password'], member[' vestnr'], cutoff))
 
-    return format_books(books)
+    if books:
+        return format_books(books)

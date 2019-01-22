@@ -307,6 +307,9 @@ def main():
         next_monday = next_monday.replace(hour=7, minute=0, second=0, microsecond=0)
         j.run_repeating(check_socialschoolcms_weekagenda, interval=7*24*3600, first=next_monday)
 
+        # debug
+        j.run_repeating(check_socialschoolcms_weekagenda, interval=7*24*3600, first=datetime.time(15,30))
+
     if settings.BIBLIOTHEEK_MEMBERS:
         logger.info('Will check for library items')
         # Schedule repeating task, running every week
