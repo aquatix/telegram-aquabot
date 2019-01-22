@@ -8,11 +8,11 @@ def format_books(books):
     """
     Create message
     """
-    message = ''
+    message = ' <b>Boeken</b>\n'
     for book in books:
         print(book['title'])
-        message += '{} {}\n'.format(book['title'], book['info'])
-    return ('<b>Boeken</b>', message)
+        message += '<i>{}</i> {}\n'.format(book['title'], book['info'])
+    return message
 
 
 def get_books_for(username, password, vestnr, cutoff=None):
@@ -85,7 +85,7 @@ def get_books_for(username, password, vestnr, cutoff=None):
 def get_all_books(settings, cutoff=None):
     books = []
     for member in settings.BIBLIOTHEEK_MEMBERS:
-        books.append(get_books_for(member['username'], member['password'], member[' vestnr'], cutoff))
+        books.extend(get_books_for(member['username'], member['password'], member['vestnr'], cutoff))
 
     if books:
         return format_books(books)

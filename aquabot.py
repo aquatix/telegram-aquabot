@@ -246,7 +246,10 @@ def check_heemskerkevents(bot, job):
 
 
 def check_library_items(bot, job):
-    theresult = bibliotheek.get_all_books(settings, cutoff=7)
+    if settings.DEBUG:
+        theresult = bibliotheek.get_all_books(settings)
+    else:
+        theresult = bibliotheek.get_all_books(settings, cutoff=7)
     if theresult:
         for user_id in settings.SEND_TO:
             logger.info('Library items overview to %d: %s', user_id, theresult)
@@ -306,9 +309,6 @@ def main():
         next_monday = onDay(datetime.datetime.today(), 0)  # Monday = 0
         next_monday = next_monday.replace(hour=7, minute=0, second=0, microsecond=0)
         j.run_repeating(check_socialschoolcms_weekagenda, interval=7*24*3600, first=next_monday)
-
-        # debug
-        j.run_repeating(check_socialschoolcms_weekagenda, interval=7*24*3600, first=datetime.time(15,30))
 
     if settings.BIBLIOTHEEK_MEMBERS:
         logger.info('Will check for library items')
