@@ -8,7 +8,7 @@ def format_books(books):
     """
     Create message
     """
-    message = ' <b>Boeken</b>\n'
+    message = ' <b>Boeken:</b>\n'
     for book in books:
         print(book['title'])
         message += '<i>{}</i> {}\n'.format(book['title'], book['info'])
