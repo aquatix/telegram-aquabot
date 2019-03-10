@@ -100,10 +100,9 @@ def get_week_agendas(settings):
 
 def get_thisweeks_agenda(settings):
     all_agendas = get_week_agendas(settings)
-    this_week_number = datetime.datetime.now().strftime("%W")
-    #this_week_number = datetime.datetime.today().isocalendar()[1]
+    this_week_number = datetime.date.today().isocalendar()[1]
     for week in all_agendas:
-        if week[0] == 'Week ' + this_week_number:
+        if week[0] == 'Week {}'.format(this_week_number):
             return week
     # Nothing for this week, tell so
-    return ('Week ' + this_week_number, '<b>Agenda Week {}:</b>\n{}'.format(this_week_number, settings.FALLBACK_MESSAGE))
+    return ('Week {}'.format(this_week_number), '<b>Agenda Week {}:</b>\n{}'.format(this_week_number, settings.FALLBACK_MESSAGE))
