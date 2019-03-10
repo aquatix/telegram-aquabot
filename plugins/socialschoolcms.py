@@ -15,7 +15,12 @@ USERAGENT = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:55.0) Gecko/20100101 Firefo
 REQUEST_HEADERS = {'User-Agent': USERAGENT}
 
 def get_newsitems(settings):
-    """Get news items from SocialSchoolCMS for the school defined in settings.py"""
+    """Get news items from SocialSchoolCMS for the school defined in settings.py
+
+    :param: settings: project settings
+    :return: list with current news items
+    :rtype: list
+    """
     # Items get cached in memcached
     mc = MemcacheClient(('127.0.0.1', 11211))
 
@@ -50,7 +55,12 @@ def get_newsitems(settings):
 
 
 def get_agenda(settings):
-    """Get agenda items from SocialSchoolCMS for the school defined in settings.py"""
+    """Get agenda items per month from SocialSchoolCMS for the school defined in settings.py
+
+    :param: settings: project settings
+    :return: list with agenda per month
+    :rtype: list
+    """
     url = 'http://socialschoolcms.nl/my/website/agenda.php?school=' + settings.SOCIALSCHOOLCMS_SCHOOL
 
     messages = []
@@ -61,7 +71,9 @@ def get_agenda(settings):
         for div in alldivs:
             if len(div.contents) == 1:
                 # It's a header
-                messages.append(unicodedata.normalize("NFKD", str(div.contents[0]).replace('<h3>', '<b>').replace('</h3>', '</b>')))
+                messages.append(
+                    unicodedata.normalize("NFKD", str(div.contents[0]).replace('<h3>', '<b>').replace('</h3>', '</b>'))
+                )
             else:
                 item_content = ''
                 for part in div.contents:
@@ -78,7 +90,12 @@ def get_agenda(settings):
 
 
 def get_week_agendas(settings):
-    """Get agenda items from SocialSchoolCMS for the school defined in settings.py"""
+    """Get agenda items from SocialSchoolCMS for the school defined in settings.py
+
+    :param: settings: project settings
+    :return: list of weeks, each as a tuple with week number and agenda for that week
+    :rtype: list
+    """
     url = 'http://socialschoolcms.nl/app/5/calendar.php?school_id=' + settings.SOCIALSCHOOLCMS_SCHOOL
 
     weeks = []
@@ -99,10 +116,19 @@ def get_week_agendas(settings):
 
 
 def get_thisweeks_agenda(settings):
+    """Gets agenda items for this week only
+
+    :param: settings: project settings
+    :return: message tuple with the agenda for the current week
+    :rtype: tuple
+    """
     all_agendas = get_week_agendas(settings)
     this_week_number = datetime.date.today().isocalendar()[1]
     for week in all_agendas:
         if week[0] == 'Week {}'.format(this_week_number):
             return week
     # Nothing for this week, tell so
-    return ('Week {}'.format(this_week_number), '<b>Agenda Week {}:</b>\n{}'.format(this_week_number, settings.FALLBACK_MESSAGE))
+    return (
+        'Week {}'.format(this_week_number),
+        '<b>Agenda Week {}:</b>\n{}'.format(this_week_number, settings.FALLBACK_MESSAGE)
+    )
