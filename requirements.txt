@@ -7,10 +7,10 @@
 asn1crypto==0.24.0        # via cryptography
 beautifulsoup4==4.7.1     # via bs4
 bs4==0.0.1
-certifi==2018.11.29       # via python-telegram-bot, requests
+certifi==2019.3.9         # via python-telegram-bot, requests
 cffi==1.12.2              # via cryptography
 chardet==3.0.4            # via requests
-cryptography==2.5         # via python-telegram-bot
+cryptography==2.6.1       # via python-telegram-bot
 feedparser==5.2.1
 future==0.17.1            # via python-telegram-bot, sparklines
 idna==2.8                 # via requests

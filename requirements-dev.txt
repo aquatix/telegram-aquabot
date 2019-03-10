@@ -5,28 +5,28 @@
 #    pip-compile requirements-dev.in --upgrade
 #
 asn1crypto==0.24.0        # via cryptography
-astroid==2.1.0            # via pylint
+astroid==2.2.5            # via pylint
 beautifulsoup4==4.7.1     # via bs4
 blessings==1.7            # via curtsies
 bpython==0.17.1
 bs4==0.0.1
-certifi==2018.11.29       # via python-telegram-bot, requests
+certifi==2019.3.9         # via python-telegram-bot, requests
 cffi==1.12.2              # via cryptography
 chardet==3.0.4            # via requests
-cryptography==2.5         # via python-telegram-bot
+cryptography==2.6.1       # via python-telegram-bot
 curtsies==0.3.0           # via bpython
 feedparser==5.2.1
 future==0.17.1            # via python-telegram-bot, sparklines
 greenlet==0.4.15          # via bpython
 idna==2.8                 # via requests
-isort==4.3.9              # via pylint
+isort==4.3.14             # via pylint
 lazy-object-proxy==1.3.1  # via astroid
 mccabe==0.6.1             # via pylint
 oauthlib==3.0.1           # via requests-oauthlib
 py-trello==0.14.0
 pycparser==2.19           # via cffi
 pygments==2.3.1           # via bpython
-pylint==2.2.2
+pylint==2.3.1
 pymemcache==2.1.1
 python-dateutil==2.8.0    # via py-trello
 python-forecastio==1.4.0
