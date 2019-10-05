@@ -29,6 +29,15 @@ def get_newsitems(settings):
     response = requests.get(url, headers=REQUEST_HEADERS)
     if response.status_code == 200:
         soup = bs4.BeautifulSoup(response.text, 'html.parser')
+
+        alldivs = soup.find_all("div", class_="row")
+        for div in alldivs:
+            notice_divs = div.find_all("div", class_="col-md-4")
+            for notice_div in notice_divs:
+                notice = notice_div.contents[0].text
+
+
+
         bloks = soup.find_all("div", class_="blok")
         messages = []
         for blok in bloks:
