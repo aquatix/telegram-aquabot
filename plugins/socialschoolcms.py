@@ -24,38 +24,31 @@ def get_newsitems(settings):
     # Items get cached in memcached
     mc = MemcacheClient(('127.0.0.1', 11211))
 
-    url = 'http://socialschoolcms.nl/my/website/mededelingen.php?school=' + settings.SOCIALSCHOOLCMS_SCHOOL
+    url = 'http://socialschoolcms.nl/app/5/announcements.php?school_id={}'.format(settings.SOCIALSCHOOLCMS_SCHOOL)
 
     response = requests.get(url, headers=REQUEST_HEADERS)
     if response.status_code == 200:
         soup = bs4.BeautifulSoup(response.text, 'html.parser')
 
+        messages = []
+
         alldivs = soup.find_all("div", class_="row")
         for div in alldivs:
             notice_divs = div.find_all("div", class_="col-md-4")
             for notice_div in notice_divs:
-                notice = notice_div.contents[0].text
+                notice = str(notice_div.contents[0]).replace('<div class="content-block">', '').replace('<p>', '').replace('</p>', '\n').replace('<br/>', '\n').replace('</div>', '').strip()
 
-
-
-        bloks = soup.find_all("div", class_="blok")
-        messages = []
-        for blok in bloks:
-            blok_result = ''
-            for paragraph in blok.find_all('p'):
-                blok_result = blok_result + str(paragraph).replace('<p>', '').replace('</p>', '\n').strip()
-
-            blok_id = 'aquabot_{}'.format(hashlib.md5(blok_result.encode('utf-8')).hexdigest())
-            logger.debug(blok_id)
-            # Normalise string characters (for example changing nbsp \xa0 into regular space)
-            blok_result = unicodedata.normalize("NFKD", blok_result)
-            if not mc.get(blok_id):
-                # Only send the message when it was not seen before
-                logger.debug('cache miss for %s', blok_id)
-                messages.append(blok_result)
-            if not settings.DEBUG:
-                # Cache message (only when not debugging)
-                mc.set(blok_id, blok_result, MESSAGE_TTL)
+                notice_id = 'aquabot_{}'.format(hashlib.md5(notice.encode('utf-8')).hexdigest())
+                logger.debug(notice_id)
+                # Normalise string characters (for example changing nbsp \xa0 into regular space)
+                notice = unicodedata.normalize("NFKD", notice)
+                if not mc.get(notice_id):
+                    # Only send the message when it was not seen before
+                    logger.debug('cache miss for %s', notice_id)
+                    messages.append(notice)
+                if not settings.DEBUG:
+                    # Cache message (only when not debugging)
+                    mc.set(notice_id, notice, MESSAGE_TTL)
 
         return messages
 
