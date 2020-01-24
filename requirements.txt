@@ -4,29 +4,28 @@
 #
 #    pip-compile requirements.in
 #
-asn1crypto==1.0.1         # via cryptography
-beautifulsoup4==4.8.1     # via bs4
+beautifulsoup4==4.8.2     # via bs4
 bs4==0.0.1
-certifi==2019.9.11        # via python-telegram-bot, requests
-cffi==1.12.3              # via cryptography
+certifi==2019.11.28       # via python-telegram-bot, requests
+cffi==1.13.2              # via cryptography
 chardet==3.0.4            # via requests
-cryptography==2.7         # via python-telegram-bot
+cryptography==2.8         # via python-telegram-bot
 feedparser==5.2.1
-future==0.18.0            # via python-telegram-bot, sparklines
+future==0.18.2            # via python-telegram-bot, sparklines
 idna==2.8                 # via requests
 oauthlib==3.1.0           # via requests-oauthlib
-py-trello==0.15.0
+py-trello==0.16.0
 pycparser==2.19           # via cffi
-pymemcache==2.2.2
-python-dateutil==2.8.0    # via py-trello
+pymemcache==3.0.0
+python-dateutil==2.8.1    # via py-trello
 python-forecastio==1.4.0
-python-telegram-bot==12.1.1
+python-telegram-bot==12.3.0
 pytz==2019.3
-requests-oauthlib==1.2.0  # via py-trello
+requests-oauthlib==1.3.0  # via py-trello
 requests==2.22.0
-responses==0.10.6         # via python-forecastio
-six==1.12.0               # via cryptography, pymemcache, python-dateutil, responses
-soupsieve==1.9.4          # via beautifulsoup4
+responses==0.10.9         # via python-forecastio
+six==1.14.0               # via cryptography, pymemcache, python-dateutil, responses
+soupsieve==1.9.5          # via beautifulsoup4
 sparklines==0.4.2
 tornado==6.0.3            # via python-telegram-bot
-urllib3==1.25.6           # via requests
+urllib3==1.25.8           # via requests

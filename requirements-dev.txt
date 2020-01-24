@@ -4,43 +4,41 @@
 #
 #    pip-compile requirements-dev.in
 #
-asn1crypto==1.0.1         # via cryptography
-astroid==2.3.1            # via pylint
-beautifulsoup4==4.8.1     # via bs4
+astroid==2.3.3            # via pylint
+beautifulsoup4==4.8.2     # via bs4
 blessings==1.7            # via curtsies
 bpython==0.18
 bs4==0.0.1
-certifi==2019.9.11        # via python-telegram-bot, requests
-cffi==1.12.3              # via cryptography
+certifi==2019.11.28       # via python-telegram-bot, requests
+cffi==1.13.2              # via cryptography
 chardet==3.0.4            # via requests
-cryptography==2.7         # via python-telegram-bot
-curtsies==0.3.0           # via bpython
+cryptography==2.8         # via python-telegram-bot
+curtsies==0.3.1           # via bpython
 feedparser==5.2.1
-future==0.18.0            # via python-telegram-bot, sparklines
+future==0.18.2            # via python-telegram-bot, sparklines
 greenlet==0.4.15          # via bpython
 idna==2.8                 # via requests
 isort==4.3.21             # via pylint
-lazy-object-proxy==1.4.2  # via astroid
+lazy-object-proxy==1.4.3  # via astroid
 mccabe==0.6.1             # via pylint
 oauthlib==3.1.0           # via requests-oauthlib
-py-trello==0.15.0
+py-trello==0.16.0
 pycparser==2.19           # via cffi
-pygments==2.4.2           # via bpython
-pylint==2.4.2
-pymemcache==2.2.2
-python-dateutil==2.8.0    # via py-trello
+pygments==2.5.2           # via bpython
+pylint==2.4.4
+pymemcache==3.0.0
+python-dateutil==2.8.1    # via py-trello
 python-forecastio==1.4.0
-python-telegram-bot==12.1.1
+python-telegram-bot==12.3.0
 pytz==2019.3
-requests-oauthlib==1.2.0  # via py-trello
+requests-oauthlib==1.3.0  # via py-trello
 requests==2.22.0
-responses==0.10.6         # via python-forecastio
-six==1.12.0               # via astroid, blessings, bpython, cryptography, pymemcache, python-dateutil, responses
-soupsieve==1.9.4          # via beautifulsoup4
+responses==0.10.9         # via python-forecastio
+six==1.14.0               # via astroid, blessings, bpython, cryptography, pymemcache, python-dateutil, responses
+soupsieve==1.9.5          # via beautifulsoup4
 sparklines==0.4.2
 tornado==6.0.3            # via python-telegram-bot
-typed-ast==1.4.0          # via astroid
-typing==3.7.4.1           # via curtsies
-urllib3==1.25.6           # via requests
-wcwidth==0.1.7            # via curtsies
+typed-ast==1.4.1          # via astroid
+urllib3==1.25.8           # via requests
+wcwidth==0.1.8            # via curtsies
 wrapt==1.11.2             # via astroid
