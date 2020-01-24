@@ -1,4 +1,5 @@
 -r requirements.in
 
+autopep8
 bpython
 pylint

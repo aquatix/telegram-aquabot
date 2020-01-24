@@ -5,6 +5,7 @@
 #    pip-compile requirements-dev.in
 #
 astroid==2.3.3            # via pylint
+autopep8==1.5
 beautifulsoup4==4.8.2     # via bs4
 blessings==1.7            # via curtsies
 bpython==0.18
@@ -23,6 +24,7 @@ lazy-object-proxy==1.4.3  # via astroid
 mccabe==0.6.1             # via pylint
 oauthlib==3.1.0           # via requests-oauthlib
 py-trello==0.16.0
+pycodestyle==2.5.0        # via autopep8
 pycparser==2.19           # via cffi
 pygments==2.5.2           # via bpython
 pylint==2.4.4
