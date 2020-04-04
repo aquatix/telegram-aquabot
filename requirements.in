@@ -3,7 +3,7 @@ python-telegram-bot
 requests
 
 # Scraping and feeds
-bs4
+beautifulsoup4
 feedparser
 
 # Caching
