@@ -5,11 +5,11 @@
 #    pip-compile requirements-dev.in
 #
 astroid==2.3.3            # via pylint
-autopep8==1.5             # via -r requirements-dev.in
-beautifulsoup4==4.8.2     # via -r requirements.in
+autopep8==1.5.1           # via -r requirements-dev.in
+beautifulsoup4==4.9.0     # via -r requirements.in
 blessings==1.7            # via curtsies
 bpython==0.19             # via -r requirements-dev.in
-certifi==2019.11.28       # via python-telegram-bot, requests
+certifi==2020.4.5.1       # via python-telegram-bot, requests
 cffi==1.14.0              # via cryptography
 chardet==3.0.4            # via requests
 cryptography==2.9         # via python-telegram-bot
@@ -28,10 +28,10 @@ pycodestyle==2.5.0        # via autopep8
 pycparser==2.20           # via cffi
 pygments==2.6.1           # via bpython
 pylint==2.4.4             # via -r requirements-dev.in
-pymemcache==3.0.1         # via -r requirements.in
+pymemcache==3.1.0         # via -r requirements.in
 python-dateutil==2.8.1    # via py-trello
 python-forecastio==1.4.0  # via -r requirements.in
-python-telegram-bot==12.5.1  # via -r requirements.in
+python-telegram-bot==12.6.1  # via -r requirements.in
 pytz==2019.3              # via -r requirements.in, py-trello
 requests-oauthlib==1.3.0  # via py-trello
 requests==2.23.0          # via -r requirements.in, bpython, py-trello, python-forecastio, requests-oauthlib, responses
