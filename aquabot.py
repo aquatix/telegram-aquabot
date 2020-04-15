@@ -18,6 +18,7 @@ bot.
 """
 import datetime
 import logging
+import pytz
 import sys
 from uuid import uuid4
 
@@ -293,6 +294,8 @@ def main():
     j = updater.job_queue
     # Find next date with day-of-week `day`:
     def onDay(date, day): return date + datetime.timedelta(days=(day - date.weekday() + 7) % 7)
+    # Set timezone
+    timezone = pytz.timezone("Europe/Amsterdam")
     # Enqueue updates
     if settings.SOCIALSCHOOLCMS_SCHOOL:
         # Sanity check
@@ -327,24 +330,24 @@ def main():
     if settings.TRELLO_APIKEY:
         logger.info('Will check for Trello list items')
         # Schedule repeating task, running every day at 7 o'clock in the morning
-        j.run_repeating(check_trello_today, interval=24 * 3600, first=datetime.time(7, 0))
-        j.run_repeating(check_trello_tomorrow, interval=24 * 3600, first=datetime.time(16, 30))
+        j.run_repeating(check_trello_today, interval=24 * 3600, first=datetime.time(7, 0), tzinfo=timezone)
+        j.run_repeating(check_trello_tomorrow, interval=24 * 3600, first=datetime.time(16, 30), tzinfo=timezone)
 
     if settings.POLLEN_LOCATIONS:
         logger.info('Will check for pollen stats')
         # Schedule repeating task, running slightly more often than every hour
-        j.run_repeating(check_pollen, interval=24 * 3600, first=datetime.time(7, 45))
+        j.run_repeating(check_pollen, interval=24 * 3600, first=datetime.time(7, 45), tzinfo=timezone)
 
     if settings.HEEMSKERK_EVENT_CALENDAR:
         logger.info('Will check for events in Heemskerk')
         # Schedule repeating task, running slightly more often than every hour
-        j.run_repeating(check_heemskerkevents, interval=24 * 3600, first=datetime.time(7, 0))
+        j.run_repeating(check_heemskerkevents, interval=24 * 3600, first=datetime.time(7, 0), tzinfo=timezone)
 
     try:
         if settings.DARKSKY_APIKEY:
             logger.info('Will check for moonphase, sun up and down at %s, %s',
                         settings.DARKSKY_LAT, settings.DARKSKY_LON)
-            j.run_repeating(check_moon_and_sun, interval=24 * 3600, first=datetime.time(7, 0))
+            j.run_repeating(check_moon_and_sun, interval=24 * 3600, first=datetime.time(7, 0), tzinfo=timezone)
     except AttributeError:
         logger.info('No DarkSky API key found, not checking moonphase and such')
 
