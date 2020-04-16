@@ -28,4 +28,4 @@ six==1.14.0               # via cryptography, pymemcache, python-dateutil, respo
 soupsieve==2.0            # via beautifulsoup4
 sparklines==0.4.2         # via -r requirements.in
 tornado==6.0.4            # via python-telegram-bot
-urllib3==1.25.8           # via requests
+urllib3==1.25.9           # via requests
