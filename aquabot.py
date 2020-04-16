@@ -292,8 +292,6 @@ def main():
     dp.add_error_handler(error)
 
     j = updater.job_queue
-    # Find next date with day-of-week `day`:
-    def onDay(date, day): return date + datetime.timedelta(days=(day - date.weekday() + 7) % 7)
     # Set timezone
     timezone = tz.gettz("Europe/Amsterdam")
     # Enqueue updates
@@ -310,17 +308,13 @@ def main():
 
         dp.add_handler(CommandHandler("schoolweekagenda", check_socialschoolcms_weekagenda))
         logger.info('Will check for SocialSchoolCMS week agenda')
-        # Schedule repeating task, running every week
-        next_monday = onDay(datetime.datetime.today(), 0)  # Monday = 0
-        next_monday = next_monday.replace(hour=7, minute=0, second=0, microsecond=0, tzinfo=timezone)
-        j.run_repeating(check_socialschoolcms_weekagenda, interval=7 * 24 * 3600, first=next_monday)
+        # Schedule repeating task, running every week on Monday
+        j.run_daily(check_socialschoolcms_weekagenda, days=(0,), time=datetime.time(7, 0, tzinfo=timezone))
 
     if settings.BIBLIOTHEEK_MEMBERS:
         logger.info('Will check for library items')
-        # Schedule repeating task, running every week
-        next_monday = onDay(datetime.datetime.today(), 0)  # Monday = 0
-        next_monday = next_monday.replace(hour=7, minute=0, second=0, microsecond=0)
-        j.run_repeating(check_library_items, interval=7 * 24 * 3600, first=next_monday)
+        # Schedule repeating task, running every week on Monday
+        j.run_daily(check_library_items, days=(0,), time=datetime.time(7, 30, tzinfo=timezone))
 
     if settings.FEEDS:
         logger.info('Will check for news feeds')
@@ -331,7 +325,7 @@ def main():
         logger.info('Will check for Trello list items')
         # Schedule repeating task, running every day at 7 o'clock in the morning
         j.run_daily(check_trello_today, time=datetime.time(7, 0, tzinfo=timezone))
-        j.run_repeating(check_trello_tomorrow, interval=24 * 3600, first=datetime.time(16, 30, tzinfo=timezone))
+        j.run_daily(check_trello_tomorrow, time=datetime.time(16, 30, tzinfo=timezone))
 
     if settings.POLLEN_LOCATIONS:
         logger.info('Will check for pollen stats')
