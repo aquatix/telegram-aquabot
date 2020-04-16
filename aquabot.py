@@ -311,7 +311,7 @@ def main():
         dp.add_handler(CommandHandler("schoolweekagenda", check_socialschoolcms_weekagenda))
         logger.info('Will check for SocialSchoolCMS week agenda')
         # Schedule repeating task, running every week
-        next_monday = onDay(timezone.localize(datetime.datetime.today(), 0))  # Monday = 0
+        next_monday = onDay(timezone.localize(datetime.datetime.today()), 0)  # Monday = 0
         next_monday = next_monday.replace(hour=7, minute=0, second=0, microsecond=0)
         j.run_repeating(check_socialschoolcms_weekagenda, interval=7 * 24 * 3600, first=next_monday)
 
