@@ -4,6 +4,7 @@ import logging
 import requests
 
 from trello import TrelloClient
+from trello.exceptions import Unauthorized
 
 logger = logging.getLogger(__name__)
 
@@ -106,7 +107,10 @@ def get_planning_for(settings, for_day, header):
     """Get the planning items for specified day"""
     client = TrelloClient(api_key=settings.TRELLO_APIKEY, token=settings.TRELLO_TOKEN)
 
-    all_boards = client.list_boards()
+    try:
+        all_boards = client.list_boards()
+    except Unauthorized:
+        return 'Geen toegang tot Trello'
 
     board_for_listing = get_board_with_name(all_boards, settings.TRELLO_BOARD)
     the_day_list = get_list(client, board_for_listing, for_day)
