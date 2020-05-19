@@ -1,7 +1,5 @@
-import bs4
 import datetime
 import logging
-import requests
 
 from trello import TrelloClient
 from trello.exceptions import Unauthorized
@@ -50,8 +48,8 @@ def lists_to_lists(client, board):
 def get_list(client, board, name):
     """Return list of cards from `board` from the list `name`"""
     members = {}
+    items = []
     for this_list in board.list_lists():
-        items = []
         if this_list.name == name:
             for card in this_list.list_cards():
                 names = []
@@ -65,6 +63,7 @@ def get_list(client, board, name):
                     names = ['👪']
                 items.append({'name': card.name, 'members': names})
             return items
+    return items
 
 
 def list_to_memberslist(settings, this_list):
