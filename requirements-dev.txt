@@ -12,7 +12,7 @@ bpython==0.19             # via -r requirements-dev.in
 certifi==2020.4.5.1       # via python-telegram-bot, requests
 cffi==1.14.0              # via cryptography
 chardet==3.0.4            # via requests
-cryptography==2.9.2       # via python-telegram-bot
+cryptography==3.2         # via python-telegram-bot
 curtsies==0.3.1           # via bpython
 decorator==4.4.2          # via python-telegram-bot
 feedparser==5.2.1         # via -r requirements.in
@@ -41,7 +41,6 @@ soupsieve==2.0.1          # via beautifulsoup4
 sparklines==0.4.2         # via -r requirements.in
 toml==0.10.1              # via pylint
 tornado==6.0.4            # via python-telegram-bot
-typed-ast==1.4.1          # via astroid
 urllib3==1.25.9           # via requests
 wcwidth==0.1.9            # via curtsies
 wrapt==1.12.1             # via astroid
