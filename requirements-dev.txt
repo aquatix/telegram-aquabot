@@ -4,44 +4,49 @@
 #
 #    pip-compile requirements-dev.in
 #
-astroid==2.4.1            # via pylint
-autopep8==1.5.2           # via -r requirements-dev.in
-beautifulsoup4==4.9.1     # via -r requirements.in
+apscheduler==3.6.3        # via python-telegram-bot
+astroid==2.4.2            # via pylint
+autopep8==1.5.4           # via -r requirements-dev.in
+beautifulsoup4==4.9.3     # via -r requirements.in
 blessings==1.7            # via curtsies
-bpython==0.19             # via -r requirements-dev.in
-certifi==2020.4.5.1       # via python-telegram-bot, requests
-cffi==1.14.0              # via cryptography
+bpython==0.20.1           # via -r requirements-dev.in
+certifi==2020.11.8        # via python-telegram-bot, requests
+cffi==1.14.4              # via cryptography
 chardet==3.0.4            # via requests
-cryptography==2.9.2       # via python-telegram-bot
-curtsies==0.3.1           # via bpython
+cryptography==3.2.1       # via python-telegram-bot
+curtsies==0.3.4           # via bpython
 decorator==4.4.2          # via python-telegram-bot
-feedparser==5.2.1         # via -r requirements.in
-future==0.18.2            # via python-telegram-bot, sparklines
-greenlet==0.4.15          # via bpython
-idna==2.9                 # via requests
-isort==4.3.21             # via pylint
+feedparser==6.0.2         # via -r requirements.in
+future==0.18.2            # via sparklines
+greenlet==0.4.17          # via bpython
+idna==2.10                # via requests
+isort==5.6.4              # via pylint
 lazy-object-proxy==1.4.3  # via astroid
 mccabe==0.6.1             # via pylint
 oauthlib==3.1.0           # via requests-oauthlib
-py-trello==0.16.0         # via -r requirements.in
+py-trello==0.17.1         # via -r requirements.in
 pycodestyle==2.6.0        # via autopep8
 pycparser==2.20           # via cffi
-pygments==2.6.1           # via bpython
-pylint==2.5.2             # via -r requirements-dev.in
-pymemcache==3.1.1         # via -r requirements.in
+pygments==2.7.2           # via bpython
+pylint==2.6.0             # via -r requirements-dev.in
+pymemcache==3.4.0         # via -r requirements.in
 python-dateutil==2.8.1    # via py-trello
 python-forecastio==1.4.0  # via -r requirements.in
-python-telegram-bot==12.7  # via -r requirements.in
-pytz==2020.1              # via -r requirements.in, py-trello
+python-telegram-bot==13.1  # via -r requirements.in
+pytz==2020.4              # via -r requirements.in, apscheduler, py-trello, python-telegram-bot, tzlocal
 requests-oauthlib==1.3.0  # via py-trello
-requests==2.23.0          # via -r requirements.in, bpython, py-trello, python-forecastio, requests-oauthlib, responses
-responses==0.10.14        # via python-forecastio
-six==1.14.0               # via astroid, blessings, bpython, cryptography, pymemcache, python-dateutil, responses
+requests==2.25.0          # via -r requirements.in, bpython, py-trello, python-forecastio, requests-oauthlib, responses
+responses==0.12.1         # via python-forecastio
+sgmllib3k==1.0.0          # via feedparser
+six==1.15.0               # via apscheduler, astroid, blessings, bpython, cryptography, pymemcache, python-dateutil, responses
 soupsieve==2.0.1          # via beautifulsoup4
 sparklines==0.4.2         # via -r requirements.in
-toml==0.10.1              # via pylint
-tornado==6.0.4            # via python-telegram-bot
-typed-ast==1.4.1          # via astroid
-urllib3==1.25.9           # via requests
-wcwidth==0.1.9            # via curtsies
+toml==0.10.2              # via autopep8, pylint
+tornado==6.1              # via python-telegram-bot
+tzlocal==2.1              # via apscheduler
+urllib3==1.26.2           # via requests, responses
+wcwidth==0.2.5            # via bpython, curtsies
 wrapt==1.12.1             # via astroid
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools
