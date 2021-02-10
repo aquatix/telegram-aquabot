@@ -4,34 +4,78 @@
 #
 #    pip-compile requirements.in
 #
-apscheduler==3.6.3        # via python-telegram-bot
-beautifulsoup4==4.9.3     # via -r requirements.in
-certifi==2020.11.8        # via python-telegram-bot, requests
-cffi==1.14.4              # via cryptography
-chardet==3.0.4            # via requests
-cryptography==3.2.1       # via python-telegram-bot
-decorator==4.4.2          # via python-telegram-bot
-feedparser==6.0.2         # via -r requirements.in
-future==0.18.2            # via sparklines
-idna==2.10                # via requests
-oauthlib==3.1.0           # via requests-oauthlib
-py-trello==0.17.1         # via -r requirements.in
-pycparser==2.20           # via cffi
-pymemcache==3.4.0         # via -r requirements.in
-python-dateutil==2.8.1    # via py-trello
-python-forecastio==1.4.0  # via -r requirements.in
-python-telegram-bot==13.1  # via -r requirements.in
-pytz==2020.4              # via -r requirements.in, apscheduler, py-trello, python-telegram-bot, tzlocal
-requests-oauthlib==1.3.0  # via py-trello
-requests==2.25.0          # via -r requirements.in, py-trello, python-forecastio, requests-oauthlib, responses
-responses==0.12.1         # via python-forecastio
-sgmllib3k==1.0.0          # via feedparser
-six==1.15.0               # via apscheduler, cryptography, pymemcache, python-dateutil, responses
-soupsieve==2.0.1          # via beautifulsoup4
-sparklines==0.4.2         # via -r requirements.in
-tornado==6.1              # via python-telegram-bot
-tzlocal==2.1              # via apscheduler
-urllib3==1.26.2           # via requests, responses
+apscheduler==3.6.3
+    # via python-telegram-bot
+beautifulsoup4==4.9.3
+    # via -r requirements.in
+certifi==2020.12.5
+    # via
+    #   python-telegram-bot
+    #   requests
+cffi==1.14.4
+    # via cryptography
+chardet==4.0.0
+    # via requests
+cryptography==3.4.4
+    # via python-telegram-bot
+feedparser==6.0.2
+    # via -r requirements.in
+future==0.18.2
+    # via sparklines
+idna==2.10
+    # via requests
+oauthlib==3.1.0
+    # via requests-oauthlib
+py-trello==0.17.1
+    # via -r requirements.in
+pycparser==2.20
+    # via cffi
+pymemcache==3.4.0
+    # via -r requirements.in
+python-dateutil==2.8.1
+    # via py-trello
+python-forecastio==1.4.0
+    # via -r requirements.in
+python-telegram-bot==13.2
+    # via -r requirements.in
+pytz==2021.1
+    # via
+    #   -r requirements.in
+    #   apscheduler
+    #   py-trello
+    #   python-telegram-bot
+    #   tzlocal
+requests-oauthlib==1.3.0
+    # via py-trello
+requests==2.25.1
+    # via
+    #   -r requirements.in
+    #   py-trello
+    #   python-forecastio
+    #   requests-oauthlib
+    #   responses
+responses==0.12.1
+    # via python-forecastio
+sgmllib3k==1.0.0
+    # via feedparser
+six==1.15.0
+    # via
+    #   apscheduler
+    #   pymemcache
+    #   python-dateutil
+    #   responses
+soupsieve==2.2
+    # via beautifulsoup4
+sparklines==0.4.2
+    # via -r requirements.in
+tornado==6.1
+    # via python-telegram-bot
+tzlocal==2.1
+    # via apscheduler
+urllib3==1.26.3
+    # via
+    #   requests
+    #   responses
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
