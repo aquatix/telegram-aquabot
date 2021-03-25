@@ -19,7 +19,7 @@ bot.
 import datetime
 import logging
 import sys
-from dateutil import tz
+import pytz
 from uuid import uuid4
 
 from telegram import (InlineQueryResultArticle, InputTextMessageContent,
@@ -293,7 +293,7 @@ def main():
 
     j = updater.job_queue
     # Set timezone
-    timezone = tz.gettz("Europe/Amsterdam")
+    timezone = pytz.timezone("Europe/Amsterdam")
     # Enqueue updates
     if settings.SOCIALSCHOOLCMS_SCHOOL:
         # Sanity check
