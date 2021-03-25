@@ -6,9 +6,9 @@
 #
 apscheduler==3.6.3
     # via python-telegram-bot
-astroid==2.4.2
+astroid==2.5.1
     # via pylint
-autopep8==1.5.5
+autopep8==1.5.6
     # via -r requirements-dev.in
 beautifulsoup4==4.9.3
     # via -r requirements.in
@@ -20,12 +20,8 @@ certifi==2020.12.5
     # via
     #   python-telegram-bot
     #   requests
-cffi==1.14.4
-    # via cryptography
 chardet==4.0.0
     # via requests
-cryptography==3.4.4
-    # via python-telegram-bot
 curtsies==0.3.5
     # via bpython
 cwcwidth==0.1.4
@@ -40,9 +36,9 @@ greenlet==1.0.0
     # via bpython
 idna==2.10
     # via requests
-isort==5.7.0
+isort==5.8.0
     # via pylint
-lazy-object-proxy==1.4.3
+lazy-object-proxy==1.6.0
     # via astroid
 mccabe==0.6.1
     # via pylint
@@ -50,21 +46,19 @@ oauthlib==3.1.0
     # via requests-oauthlib
 py-trello==0.17.1
     # via -r requirements.in
-pycodestyle==2.6.0
+pycodestyle==2.7.0
     # via autopep8
-pycparser==2.20
-    # via cffi
-pygments==2.7.4
+pygments==2.8.1
     # via bpython
-pylint==2.6.0
+pylint==2.7.2
     # via -r requirements-dev.in
-pymemcache==3.4.0
+pymemcache==3.4.1
     # via -r requirements.in
 python-dateutil==2.8.1
     # via py-trello
 python-forecastio==1.4.0
     # via -r requirements.in
-python-telegram-bot==13.2
+python-telegram-bot==13.4.1
     # via -r requirements.in
 pytz==2021.1
     # via
@@ -72,7 +66,6 @@ pytz==2021.1
     #   apscheduler
     #   py-trello
     #   python-telegram-bot
-    #   tzlocal
 pyxdg==0.27
     # via bpython
 requests-oauthlib==1.3.0
@@ -85,19 +78,17 @@ requests==2.25.1
     #   python-forecastio
     #   requests-oauthlib
     #   responses
-responses==0.12.1
+responses==0.13.1
     # via python-forecastio
 sgmllib3k==1.0.0
     # via feedparser
 six==1.15.0
     # via
     #   apscheduler
-    #   astroid
-    #   blessings
     #   pymemcache
     #   python-dateutil
     #   responses
-soupsieve==2.2
+soupsieve==2.2.1
     # via beautifulsoup4
 sparklines==0.4.2
     # via -r requirements.in
@@ -109,7 +100,7 @@ tornado==6.1
     # via python-telegram-bot
 tzlocal==2.1
     # via apscheduler
-urllib3==1.26.3
+urllib3==1.26.4
     # via
     #   requests
     #   responses
