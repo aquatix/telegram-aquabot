@@ -137,72 +137,72 @@ def send_response(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text=theresult)
 
 
-def check_socialschoolcms_news(bot, job):
+def check_socialschoolcms_news(context):
     theresult = socialschoolcms.get_newsitems(settings)
     try:
-        if job.context and job.context['warmingup']:
-            job.context = {'warmingup': False}
+        if context.job.context and context.job.context['warmingup']:
+            context.job.context = {'warmingup': False}
             logger.info('Warming up SocialSchoolCMS news, skipping send')
             return
     except AttributeError:
-        job.context = {'warmingup': False}
+        context.job.context = {'warmingup': False}
     for user_id in settings.SEND_TO:
         for message in theresult:
             logger.info('News item to %d: %s', user_id, message)
-            bot.send_message(chat_id=user_id, text=message)
+            context.bot.send_message(chat_id=user_id, text=message)
 
 
-def check_socialschoolcms_agenda(bot, job):
+def check_socialschoolcms_agenda(context):
     theresult = socialschoolcms.get_agenda(settings)
     try:
-        if job.context and job.context['warmingup']:
-            job.context = {'warmingup': False}
+        if context.job.context and context.job.context['warmingup']:
+            context.job.context = {'warmingup': False}
             logger.info('Warming up SocialSchoolCMS agenda, skipping send')
             return
     except AttributeError:
-        job.context = {'warmingup': False}
+        context.job.context = {'warmingup': False}
     for user_id in settings.SEND_TO:
         for message in theresult:
             logger.info('Agenda message to %d: %s', user_id, message)
-            bot.send_message(chat_id=user_id, text=message, parse_mode=ParseMode.HTML)
+            context.bot.send_message(chat_id=user_id, text=message, parse_mode=ParseMode.HTML)
 
 
-def check_socialschoolcms_weekagenda(bot, job):
+def check_socialschoolcms_weekagenda(context):
     theresult = socialschoolcms.get_thisweeks_agenda(settings)
     try:
-        if job.context and job.context['warmingup']:
-            job.context = {'warmingup': False}
+        if context.job.context and context.job.context['warmingup']:
+            context.job.context = {'warmingup': False}
             logger.info('Warming up SocialSchoolCMS week agenda, skipping send')
             return
     except AttributeError:
-        job.context = {'warmingup': False}
+        context.job.context = {'warmingup': False}
     for user_id in settings.SEND_TO:
         logger.info('Week agenda message to %d: %s', user_id, theresult[1])
-        bot.send_message(chat_id=user_id, text=theresult[1], parse_mode=ParseMode.HTML)
+        context.bot.send_message(chat_id=user_id, text=theresult[1], parse_mode=ParseMode.HTML)
 
 
-def check_news_feeds(bot, job):
+def check_news_feeds(context):
     theresult = feed.get_feedupdates(settings)
     try:
-        if job.context and job.context['warmingup']:
-            job.context = {'warmingup': False}
+        if context.job.context and context.job.context['warmingup']:
+            context.job.context = {'warmingup': False}
             logger.info('Warming up news feed, skipping send')
             return
     except AttributeError:
-        job.context = {'warmingup': False}
+        context.job.context = {'warmingup': False}
     for user_id in settings.SEND_TO:
         for message in theresult:
             logger.info('Newsfeed message to %d: %s', user_id, message['message'])
-            bot.send_message(chat_id=user_id, text=message['message'], parse_mode=ParseMode.HTML)
+            context.bot.send_message(chat_id=user_id, text=message['message'], parse_mode=ParseMode.HTML)
             if message['images']:
                 for image in message['images']:
                     logger.info('Newsfeed image to %d: %s', user_id, image)
-                    bot.send_photo(chat_id=user_id, photo=image)
+                    context.bot.send_photo(chat_id=user_id, photo=image)
 
 
 def check_trello(bot, job, theresult):
     try:
-        if job.context and job.context['warmingup']:
+        if job.context and context.job.context['warmingup']:
             job.context = {'warmingup': False}
             logger.info('Warming up Trello, skipping send')
             return
@@ -212,43 +212,43 @@ def check_trello(bot, job, theresult):
         bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.MARKDOWN)
 
 
-def check_trello_today(bot, job):
+def check_trello_today(context):
     theresult = trello.get_todays_planning(settings)
-    check_trello(bot, job, theresult)
+    check_trello(context.bot, context.job, theresult)
 
 
-def check_trello_tomorrow(bot, job):
+def check_trello_tomorrow(context):
     theresult = trello.get_tomorrows_planning(settings)
-    check_trello(bot, job, theresult)
+    check_trello(context.bot, context.job, theresult)
 
 
-def check_pollen(bot, job):
+def check_pollen(context):
     theresult = pollen.get_pollen_stats(settings)
-    if job.context and job.context['warmingup']:
-        job.context = {'warmingup': False}
+    if context.job.context and context.job.context['warmingup']:
+        context.job.context = {'warmingup': False}
         logger.info('Warming up pollen, skipping send')
         return
     for user_id in settings.SEND_TO:
         logger.info('Pollenstats to %d: %s', user_id, theresult)
-        bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.HTML)
+        context.bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.HTML)
 
 
-def check_moon_and_sun(bot, job):
+def check_moon_and_sun(context):
     theresult = darksky.get_sun_and_moon(settings)
     for user_id in settings.SEND_TO:
         logger.info('Sun and moon to %d: %s', user_id, theresult)
-        bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.MARKDOWN)
+        context.bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.MARKDOWN)
 
 
-def check_heemskerkevents(bot, job):
+def check_heemskerkevents(context):
     theresult = heemskerkevenementenkalender.get_items_for_today_and_tomorrow()
     if theresult:
         for user_id in settings.SEND_TO:
             logger.info('Heemskerk events to %d: %s', user_id, theresult)
-            bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.HTML)
+            context.bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.HTML)
 
 
-def check_library_items(bot, job):
+def check_library_items(context):
     if settings.DEBUG:
         theresult = bibliotheek.get_all_books(settings)
     else:
@@ -256,7 +256,7 @@ def check_library_items(bot, job):
     if theresult:
         for user_id in settings.SEND_TO:
             logger.info('Library items overview to %d: %s', user_id, theresult)
-            bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.HTML)
+            context.bot.send_message(chat_id=user_id, text=theresult, parse_mode=ParseMode.HTML)
 
 
 def error(bot, update, error):
