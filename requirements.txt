@@ -34,7 +34,7 @@ python-forecastio==1.4.0
     # via -r requirements.in
 python-telegram-bot==13.14
     # via -r requirements.in
-pytz==2022.5
+pytz==2022.6
     # via
     #   -r requirements.in
     #   apscheduler
@@ -67,13 +67,13 @@ toml==0.10.2
     # via responses
 tornado==6.1
     # via python-telegram-bot
-types-toml==0.10.8
+types-toml==0.10.8.1
     # via responses
-tzdata==2022.5
+tzdata==2022.6
     # via pytz-deprecation-shim
 tzlocal==4.2
     # via apscheduler
-urllib3==1.26.12
+urllib3==1.26.13
     # via
     #   requests
     #   responses
