@@ -19,14 +19,15 @@ bot.
 import datetime
 import logging
 import sys
-import pytz
 from uuid import uuid4
 
-from telegram import (InlineQueryResultArticle, InputTextMessageContent,
-                      ParseMode)
-from telegram.ext import (CommandHandler, Filters, InlineQueryHandler,
-                          MessageHandler, Updater)
-from telegram.utils.helpers import escape_markdown
+import pytz
+from telegram import InlineQueryResultArticle, InputTextMessageContent
+from telegram.constants import ParseMode
+from telegram.ext import (CommandHandler, InlineQueryHandler, MessageHandler,
+                          Updater)
+from telegram.ext.filters import Basefilter
+from telegram.helpers import escape_markdown
 
 import settings
 from plugins import (bibliotheek, darksky, feed, heemskerkevenementenkalender,
@@ -286,7 +287,7 @@ def main():
 
     # on noncommand i.e message - echo the message on Telegram
     dp.add_handler(InlineQueryHandler(inlinequery))
-    dp.add_handler(MessageHandler(Filters.text, send_response))
+    dp.add_handler(MessageHandler(Basefilter.text, send_response))
 
     # log all errors
     dp.add_error_handler(error)
