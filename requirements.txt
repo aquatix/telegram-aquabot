@@ -46,7 +46,7 @@ pytz==2022.7.1
     # via
     #   -r requirements.in
     #   py-trello
-requests==2.28.2
+requests==2.31.0
     # via
     #   -r requirements.in
     #   py-trello
