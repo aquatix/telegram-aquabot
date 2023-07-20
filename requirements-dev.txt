@@ -62,7 +62,7 @@ py-trello==0.19.0
     # via -r requirements.in
 pycodestyle==2.10.0
     # via autopep8
-pygments==2.14.0
+pygments==2.15.0
     # via bpython
 pylint==2.16.1
     # via -r requirements-dev.in
@@ -111,16 +111,10 @@ sparklines==0.4.2
     # via -r requirements.in
 toml==0.10.2
     # via responses
-tomli==2.0.1
-    # via
-    #   autopep8
-    #   pylint
 tomlkit==0.11.6
     # via pylint
 types-toml==0.10.8.2
     # via responses
-typing-extensions==4.4.0
-    # via astroid
 urllib3==1.26.14
     # via
     #   requests
